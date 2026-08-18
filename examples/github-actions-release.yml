@@ -1,0 +1,141 @@
+# Example release workflow for the AguEdit desktop app.
+#
+# Copy this into the PRIVATE desktop-app repo at .github/workflows/release.yml.
+# On every push/merge to `main` it builds an UNSIGNED macOS app and publishes it
+# as a GitHub Release on the SEPARATE PUBLIC releases repo:
+#   vibhavy/agentic-monkey-desktop-app-releases
+#
+# The marketing site then pulls that release from the GitHub API (no callback
+# needed), and the desktop app checks the site for the latest version.
+#
+# macOS only for now — add Windows/Linux to the matrix once the app is stable.
+#
+# How a private repo publishes to the public releases repo:
+#   A workflow's built-in GITHUB_TOKEN can only write to its OWN repo, so it
+#   cannot create a release in the releases repo. We give this workflow a
+#   separate credential with write access to the releases repo and call the
+#   Releases API with it (`gh release create --repo <releases-repo>`), which
+#   creates the tag + release and uploads the .dmg there.
+#
+# One-time setup:
+#   1. Initialize the releases repo with at least one commit (a README) on its
+#      default branch — `gh release create` needs a commit to tag; an empty repo
+#      errors.
+#   2. Create a fine-grained PAT (github.com → Settings → Developer settings →
+#      Fine-grained tokens): resource owner vibhavy, repository access limited to
+#      `agentic-monkey-desktop-app-releases`, permission Contents: Read and write.
+#   3. Add it to THIS (app) repo as the secret below.
+#      (More secure alternative: a GitHub App installed on the releases repo,
+#       minting a short-lived token with actions/create-github-app-token.)
+#
+# Required repo secret:
+#   RELEASES_REPO_TOKEN  The fine-grained PAT above, with "Contents: write" on
+#                        the public releases repo.
+#
+# Notes on "unsigned": we do not pay for an Apple Developer cert, so the app is
+# not code-signed or notarized. Users get a Gatekeeper prompt on first launch
+# (right-click → Open, or `xattr -cr /Applications/AguEdit.app`). The
+# download page documents this.
+
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+# Prevent overlapping release runs.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read app version
+        id: version
+        # tauri.conf.json is the source of truth for the app version.
+        run: |
+          VERSION=$(node -p "require('./src-tauri/tauri.conf.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Skip if this version is already released
+        id: guard
+        env:
+          GH_TOKEN: ${{ secrets.RELEASES_REPO_TOKEN }}
+        run: |
+          if gh release view "${{ steps.version.outputs.tag }}" \
+               --repo vibhavy/agentic-monkey-desktop-app-releases >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.guard.outputs.exists == 'false'
+        with:
+          node-version: 20
+
+      - uses: dtolnay/rust-toolchain@stable
+        if: steps.guard.outputs.exists == 'false'
+        with:
+          # Universal binary needs both arch targets.
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - name: Install dependencies
+        if: steps.guard.outputs.exists == 'false'
+        run: npm ci
+
+      - name: Build macOS (universal, unsigned)
+        if: steps.guard.outputs.exists == 'false'
+        # No signing env is provided on purpose — this produces an unsigned .dmg.
+        run: npm run tauri build -- --target universal-apple-darwin --bundles dmg
+
+      - name: Create release on the public releases repo
+        if: steps.guard.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.RELEASES_REPO_TOKEN }}
+        run: |
+          set -euo pipefail
+          DMG=$(find src-tauri/target/universal-apple-darwin/release/bundle/dmg -name "*.dmg" | head -n1)
+          echo "Publishing $DMG"
+          gh release create "${{ steps.version.outputs.tag }}" "$DMG" \
+            --repo vibhavy/agentic-monkey-desktop-app-releases \
+            --title "AguEdit ${{ steps.version.outputs.tag }}" \
+            --notes "Automated macOS build for ${{ steps.version.outputs.tag }}." \
+            --latest
+
+  # After a successful release, bump the minor version on main so the next merge
+  # ships a new version. Commits back to the private repo.
+  bump:
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump minor version in tauri.conf.json
+        run: |
+          set -euo pipefail
+          node -e '
+            const fs = require("fs");
+            const p = "src-tauri/tauri.conf.json";
+            const c = JSON.parse(fs.readFileSync(p, "utf8"));
+            const [maj, min] = c.version.split(".").map(Number);
+            c.version = `${maj}.${min + 1}.0`;
+            fs.writeFileSync(p, JSON.stringify(c, null, 2) + "\n");
+            console.log("Bumped to", c.version);
+          '
+      - name: Commit the bump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src-tauri/tauri.conf.json
+          git commit -m "chore: bump version after release [skip ci]" || echo "nothing to commit"
+          git push
