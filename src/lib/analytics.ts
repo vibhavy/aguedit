@@ -67,5 +67,7 @@ function deniedConsent() {
 }
 
 function grantedConsent() {
-  return { ...deniedConsent(), analytics_storage: "granted" };
+  const consent = deniedConsent();
+  consent.analytics_storage = "granted";
+  return consent;
 }

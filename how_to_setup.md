@@ -105,6 +105,22 @@ examples/                  # CI workflow to copy into the private desktop repo
 
 ## Deploy
 
-Designed for Vercel. Set `NEXT_PUBLIC_SITE_URL` (and optionally `GITHUB_TOKEN`)
-in the project settings and point the `aguedit.com` domain at the
-deployment. No database or external services required.
+The production target is Cloudflare Workers through the OpenNext adapter. Set
+`NEXT_PUBLIC_SITE_URL` (and optionally `GITHUB_TOKEN`) in Cloudflare, then run:
+
+```bash
+npm run preview  # build and test with the Workers runtime locally
+npm run deploy   # build and deploy the aguedit Worker
+```
+
+For a Git-connected Cloudflare build, configure:
+
+| Setting | Value |
+| --- | --- |
+| Build command | `npm run build:cloudflare` |
+| Deploy command | `npm run deploy:cloudflare` |
+
+The committed `wrangler.jsonc` deliberately gives both the Worker and its
+`WORKER_SELF_REFERENCE` service binding the name `aguedit`; these values must
+remain identical. Point the `aguedit.com` custom domain at that Worker after the
+first successful deployment. No database or external services are required.
