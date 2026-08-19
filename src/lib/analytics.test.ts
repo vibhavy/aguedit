@@ -40,7 +40,7 @@ async function setupAnalytics(): Promise<unknown[][]> {
   vi.stubGlobal("window", {
     dataLayer: calls,
     gtag: (...args: unknown[]) => calls.push(args),
-    location: { origin: "https://getagenticmonkey.com" },
+    location: { origin: "https://aguedit.com" },
   });
   vi.stubGlobal("document", { title: "AguEdit" });
   return calls;

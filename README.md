@@ -1,111 +1,131 @@
-# AguEdit — Marketing Website
+# AguEdit
 
-The public marketing site for [AguEdit](https://getagenticmonkey.com): a
-local-first desktop workspace for Claude Code, Codex, and the coding agents that
-come next. Switch the agent without rebuilding project context.
+**Code with Claude Code, Codex, Antigravity, and Cursor in one editor.**
 
-Built with **Next.js 16** (App Router, Turbopack), **React 19**, **Tailwind CSS
-v4**, and TypeScript. SEO-first, static-generated marketing pages plus a small
-set of API routes that power downloads and release management.
+AguEdit is a local-first desktop code editor built around coding agents. Run
+Claude Code, Codex, Antigravity, and Cursor side by side, switch between them
+without rebuilding project context, and keep files, diffs, Git, terminals, and
+plans in the same window. No account, no hosted project database — your project
+state stays on your disk.
 
-## Getting started
+**[Download for macOS →](https://aguedit.com/download)** ·
+[aguedit.com](https://aguedit.com)
 
-```bash
-npm install
-cp .env.example .env.local   # fill in values (see below)
-npm run dev                  # http://localhost:3000
-```
+> This repository holds the **marketing website**. If you're here to work on the
+> site, see **[how_to_setup.md](./how_to_setup.md)**.
 
-Build & serve production:
+---
 
-```bash
-npm run build
-npm run start
-```
+## What AguEdit does
 
-## Environment
+### Agent orchestration — choose the right agent for every turn
 
-See [`.env.example`](./.env.example). Summary:
+Claude Code, Codex, Antigravity, and Cursor keep their own strengths and native
+sessions. AguEdit gives them one consistent place to work — with more agents in
+the pipeline.
 
-| Variable               | Purpose                                                                 |
-| ---------------------- | ----------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL` | Canonical URL for SEO, sitemap, robots, OG images.                      |
-| `GITHUB_TOKEN`         | Optional read-only token for the fallback GitHub API request.           |
+- **Switch agents inside a thread** — move between Claude Code, Codex,
+  Antigravity, and Cursor message by message. Each tool keeps its own resume
+  session while sharing the project's durable context.
+- **Manual or AUTO routing** — pin a tool and model, override a single message,
+  or let local task heuristics choose from the agents that are ready to run.
+- **Live, stoppable runs** — responses, reasoning, commands, file changes, and
+  token use stream as they happen. Runs have no guessed timeout; Stop stays
+  yours.
+- **Models, effort, and access** — tool-owned model catalogues, supported effort
+  levels, and read-only, workspace-editing, or full access, selectable per
+  message.
 
-No database or secrets are required — the site reads releases straight from the
-public GitHub releases repo.
+### Project continuity — the project remembers, even when the agent changes
 
-## SEO
+Project notes live with the repository in a local store you can inspect. Every
+agent can read the same decisions, tasks, and file notes.
 
-- Per-page metadata, canonical URLs, Open Graph + Twitter cards via `lib/seo.ts`.
-- Structured data (JSON-LD): `SoftwareApplication`, `Organization`, `FAQPage`.
-- `app/sitemap.ts`, `app/robots.ts`, `app/manifest.ts`.
-- A bespoke 1200×630 social card at `public/og-aguedit.png`.
+- **Canonical project memory** — decisions, context summaries, todos, and file
+  notes in one append-only project history that every adapter receives.
+- **Existing history, discovered live** — browse Claude Code and Codex projects
+  and conversations from their local session stores without importing or
+  duplicating them.
+- **One shared task vocabulary** — task lists published by either tool become
+  canonical todos, with matching that stops repeated plans from filling memory
+  with copies.
+- **Plans with real agent work** — create project plans, assign each task to a
+  tool, model, and effort, discuss it in its own thread, and approve runs from
+  the board or the bell.
+- **Your edits become context** — saving through the embedded editor writes an
+  atomic file note immediately, so the next agent sees what you changed by hand.
 
-## Release management
+### Developer workspace — keep the work in one window
 
-**Pull model.** The app's code lives in a private repo; built releases are
-published to a separate **public** repo
-(`vibhavy/agentic-monkey-desktop-app-releases`). Release automation writes a
-small `latest.json` snapshot there after publishing the artifacts. The site
-checks GitHub for a newer release and falls back to that durable snapshot when
-the API is unavailable or rate-limited.
-macOS only for now, unsigned (no paid Apple cert).
+Conversations are only one part of software work. Files, diffs, terminals,
+repositories, search, and plans share the same tabbed centre.
 
-```
-Push/merge to main (private desktop-app repo)
-  → GitHub Actions builds an unsigned macOS .dmg
-  → gh release create … on the PUBLIC releases repo
-        │
-   latest.json snapshot ◀── site pulls durable release metadata
-        ├→ /download             download page (OS auto-detect + install help)
-        ├→ /api/download/[slug]  302 → artifact  (slug "auto" = detect OS)
-        └→ /api/releases/latest  public JSON — also polled by the desktop app
-```
+- **Tabs across projects** — keep conversations, files, diffs, terminals, and
+  plan boards open across project switches; every tab retains its project
+  identity.
+- **Monaco editing and complete diffs** — edit with Monaco's bundled language
+  grammars, find, folding, and context menus, or review staged and unstaged
+  changes side by side.
+- **Real persistent terminal tabs** — interactive PTY shells keep running while
+  you navigate. After restart, tabs restore their names, folders, and scrollback
+  into clearly marked new shells.
+- **Source control for every repository** — stage, discard, commit, branch,
+  fetch, pull, push, sync, and manage stashes independently across every Git
+  repository in a project.
+- **A working project directory** — create, rename, move, copy, paste, reveal,
+  and delete files and folders through the same guarded project boundary used
+  for reads.
+- **Two kinds of search** — filter half-remembered filenames with a fast tree
+  filter, or search file contents and conversation transcripts together and jump
+  to the line.
 
-The snapshot prevents temporary GitHub API failures or rate limits from making
-an existing release disappear. Upstream failures return `503`; only an
-authoritative GitHub `404` is presented as “no release.”
+### Visibility and control — know what is running, spending, and changing
 
-### API routes
+Long agent sessions stay observable without forcing you to stare at one pane
+until they finish.
 
-| Route                   | Method | Purpose                                                                     |
-| ----------------------- | ------ | --------------------------------------------------------------------------- |
-| `/api/releases/latest`  | GET    | Public JSON of the current release (CORS-enabled).                          |
-| `/api/download/[slug]`  | GET    | 302 to an artifact (`auto` = detect OS); `?mode=stream` proxies the bytes.  |
+- **Background runs and notifications** — move to another thread, file, or
+  project while work continues; the bell and desktop notifications take you back
+  when a run finishes.
+- **Token and context visibility** — see conversation input and output totals,
+  the active context share, and each tool's own published usage windows while
+  work streams.
+- **Per-message permission boundaries** — one neutral access choice is
+  translated into the correct sandbox flags for whichever agent handles that
+  message.
+- **No arbitrary work deadline** — agent turns and Git operations run for as long
+  as the work needs. You decide when to stop a run rather than losing it to a
+  timer.
+- **Local, guarded project state** — no account or hosted project database.
+  Atomic writes and strict path checks keep project state inside the project
+  boundary.
 
-The download button streams `?mode=stream` same-origin and shows progress —
-the web analogue of the desktop app's download flow — then saves the file.
+## How it works
 
-The desktop app polls `/api/releases/latest` (splash-screen check + a background
-poll every ~15 min) and compares its own version against `version` to decide
-whether to prompt for an update.
+1. **Open or discover a project** — pick any folder, or read existing Claude Code
+   and Codex history directly from the tools' local session stores. Browsing
+   writes nothing.
+2. **Choose the agent and boundary** — select the tool, model, effort, and
+   access for this message, or leave routing on AUTO and watch the run stream in
+   real time.
+3. **Continue with the whole story** — the next agent receives the shared
+   decisions, todos, summaries, and file notes while its own native session
+   resumes independently.
 
-### Wiring up CI
+## Privacy
 
-Copy [`examples/github-actions-release.yml`](./examples/github-actions-release.yml)
-into the **private desktop-app** repo. On push to `main` it builds an unsigned
-universal macOS `.dmg` and creates a release on the public releases repo (using a
-`RELEASES_REPO_TOKEN` PAT with `Contents: write` there), then bumps the minor
-version. No callback to the site is needed — it pulls on its own.
+AguEdit has no account, hosted project database, or telemetry pipeline for your
+work. Project memory and conversations stay on disk. The agent CLI you run —
+Claude Code, Codex, Antigravity, or Cursor — may send prompts and selected code
+to its own provider under that provider's terms.
 
-## Project structure
+## Availability
 
-```
-src/
-  app/                     # routes (marketing pages + api/* + sitemap/robots/og)
-  components/              # header, footer, logo, UI primitives, app mock
-  lib/
-    site.ts                # name, URLs, nav, socials, releases repo
-    content.ts             # features, steps, FAQ, comparison copy
-    seo.ts                 # metadata builder + JSON-LD
-    releases.ts            # release types + pull from the GitHub releases repo
-    os.ts                  # OS detection, semver compare, byte formatting
-examples/                  # CI workflow to copy into the private desktop repo
-```
+macOS today (unsigned build). Free while in preview.
+**[Download →](https://aguedit.com/download)**
 
-## Deploy
+## Links
 
-Designed for Vercel. Set `NEXT_PUBLIC_SITE_URL` (and optionally `GITHUB_TOKEN`)
-in the project settings and point the `getagenticmonkey.com` domain at the
-deployment. No database or external services required.
+- Website — [aguedit.com](https://aguedit.com)
+- Releases — [GitHub releases](https://github.com/vibhavy/aguedit/releases)
+- Working on this site? — **[how_to_setup.md](./how_to_setup.md)**

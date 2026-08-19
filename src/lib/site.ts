@@ -8,7 +8,7 @@ export const siteConfig = {
   name: "AguEdit",
   shortName: "AguEdit",
   // Canonical production URL. Override with NEXT_PUBLIC_SITE_URL in each env.
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://getagenticmonkey.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://aguedit.com",
   tagline: "Code with Claude Code and Codex in one editor.",
   footerDescription:
     "A code editor with Claude Code, Codex, file editing, Git, plans, and a built-in terminal.",
@@ -38,9 +38,9 @@ export const siteConfig = {
   // Public repo that holds the built releases (code lives in a separate private
   // repo). The site pulls the latest release from here via the GitHub API.
   releasesOwner: "vibhavy",
-  releasesRepo: "agentic-monkey-desktop-app-releases",
+  releasesRepo: "aguedit",
   socials: {
-    github: "https://github.com/vibhavy/agentic-monkey-desktop-app-releases",
+    github: "https://github.com/vibhavy/aguedit",
     x: "https://x.com/agenticmonkey",
     discord: "https://discord.gg/agenticmonkey",
   },

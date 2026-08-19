@@ -78,7 +78,7 @@ function githubHeaders(): HeadersInit {
     "X-GitHub-Api-Version": "2022-11-28",
     // GitHub rejects API requests without a User-Agent (403). Node/curl set one
     // implicitly; the Cloudflare Workers runtime does not, so set it explicitly.
-    "User-Agent": `${siteConfig.releasesRepo} (getagenticmonkey.com)`,
+    "User-Agent": `${siteConfig.releasesRepo} (aguedit.com)`,
   };
   // Optional token lifts the unauthenticated rate limit (60/hr → 5000/hr).
   if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
@@ -137,7 +137,7 @@ async function readRelease(url: string, headers: HeadersInit): Promise<ReleaseRe
 }
 
 function publicGithubHeaders(): HeadersInit {
-  return { "User-Agent": `${siteConfig.releasesRepo} (getagenticmonkey.com)` };
+  return { "User-Agent": `${siteConfig.releasesRepo} (aguedit.com)` };
 }
 
 function mappedRead(release: GithubRelease): ReleaseRead {

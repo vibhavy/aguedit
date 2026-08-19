@@ -3,7 +3,7 @@
 # Copy this into the PRIVATE desktop-app repo at .github/workflows/release.yml.
 # On every push/merge to `main` it builds an UNSIGNED macOS app and publishes it
 # as a GitHub Release on the SEPARATE PUBLIC releases repo:
-#   vibhavy/agentic-monkey-desktop-app-releases
+#   vibhavy/aguedit
 #
 # The marketing site then pulls that release from the GitHub API (no callback
 # needed), and the desktop app checks the site for the latest version.
@@ -23,7 +23,7 @@
 #      errors.
 #   2. Create a fine-grained PAT (github.com → Settings → Developer settings →
 #      Fine-grained tokens): resource owner vibhavy, repository access limited to
-#      `agentic-monkey-desktop-app-releases`, permission Contents: Read and write.
+#      `aguedit`, permission Contents: Read and write.
 #   3. Add it to THIS (app) repo as the secret below.
 #      (More secure alternative: a GitHub App installed on the releases repo,
 #       minting a short-lived token with actions/create-github-app-token.)
@@ -71,7 +71,7 @@ jobs:
           GH_TOKEN: ${{ secrets.RELEASES_REPO_TOKEN }}
         run: |
           if gh release view "${{ steps.version.outputs.tag }}" \
-               --repo vibhavy/agentic-monkey-desktop-app-releases >/dev/null 2>&1; then
+               --repo vibhavy/aguedit >/dev/null 2>&1; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
@@ -106,7 +106,7 @@ jobs:
           DMG=$(find src-tauri/target/universal-apple-darwin/release/bundle/dmg -name "*.dmg" | head -n1)
           echo "Publishing $DMG"
           gh release create "${{ steps.version.outputs.tag }}" "$DMG" \
-            --repo vibhavy/agentic-monkey-desktop-app-releases \
+            --repo vibhavy/aguedit \
             --title "AguEdit ${{ steps.version.outputs.tag }}" \
             --notes "Automated macOS build for ${{ steps.version.outputs.tag }}." \
             --latest
