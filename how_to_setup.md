@@ -18,9 +18,14 @@ npm run dev                  # http://localhost:3000
 Build & serve production:
 
 ```bash
-npm run build
-npm run start
+npm run build       # OpenNext/Cloudflare Workers build (runs `next build` + bundles the Worker)
+npm run start       # serve the Next output locally
+npm run build:next  # plain `next build` only, without the Workers bundle
 ```
+
+`npm run build` intentionally produces the Cloudflare Workers output so that a
+Git-connected Cloudflare deploy works with its **default** build command. Use
+`build:next` if you only want a vanilla Next.js production build.
 
 ## Environment
 
@@ -113,12 +118,19 @@ npm run preview  # build and test with the Workers runtime locally
 npm run deploy   # build and deploy the aguedit Worker
 ```
 
-For a Git-connected Cloudflare build, configure:
+For a Git-connected Cloudflare build, the repo works with Cloudflare's **default**
+commands — no dashboard override needed — because `npm run build` now produces the
+OpenNext output and `npx wrangler deploy` auto-delegates to the OpenNext deploy:
 
-| Setting | Value |
-| --- | --- |
-| Build command | `npm run build:cloudflare` |
-| Deploy command | `npm run deploy:cloudflare` |
+| Setting | Default (works as-is) | Explicit equivalent |
+| --- | --- | --- |
+| Build command | `npm run build` | `npm run build:cloudflare` |
+| Deploy command | `npx wrangler deploy` | `npm run deploy:cloudflare` |
+
+> The earlier failure `Could not find compiled Open Next config, did you run the
+> build command?` happened because the build step ran plain `next build` instead
+> of the OpenNext build, so `.open-next/` was never generated before deploy.
+> Making `npm run build` the OpenNext build removes that mismatch.
 
 The committed `wrangler.jsonc` deliberately gives both the Worker and its
 `WORKER_SELF_REFERENCE` service binding the name `aguedit`; these values must
