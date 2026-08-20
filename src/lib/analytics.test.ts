@@ -15,7 +15,7 @@ describe("analytics commands", () => {
 
     expect(calls).toEqual([
       ["consent", "update", expect.objectContaining({ analytics_storage: "granted" })],
-      ["config", "G-NQ1WLM1D7Y", { send_page_view: false }],
+      ["config", "G-H8E4PNWPV4", { send_page_view: false }],
     ]);
   });
 

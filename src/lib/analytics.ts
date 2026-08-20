@@ -1,4 +1,4 @@
-export const GOOGLE_ANALYTICS_ID = "G-NQ1WLM1D7Y";
+export const GOOGLE_ANALYTICS_ID = "G-H8E4PNWPV4";
 export const ANALYTICS_CONSENT_KEY = "agenticmonkey.analytics-consent";
 export const OPEN_ANALYTICS_SETTINGS = "agenticmonkey:analytics-settings";
 export const ANALYTICS_CONSENT_CHANGED =
