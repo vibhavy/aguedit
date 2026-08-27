@@ -12,12 +12,7 @@ export default function TermsPage() {
   return (
     <Container className="py-16 sm:py-24">
       <div className="mx-auto flex max-w-2xl flex-col gap-5">
-        <SectionHeading
-          as="h1"
-          align="left"
-          eyebrow="Terms"
-          title="Terms of Use"
-        />
+        <SectionHeading as="h1" align="left" title="Terms of Use" />
         <p className="text-sm text-muted">
           Last updated: {new Date().getFullYear()}
         </p>

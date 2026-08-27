@@ -4,11 +4,12 @@ import { unstable_rethrow } from "next/navigation";
 /**
  * Release data model + a read-only pull from the public GitHub releases repo.
  *
- * The desktop app is built by CI and published as a GitHub Release on
+ * The desktop app is built and notarized locally, then published from a
+ * checksum-verified draft GitHub Release on
  * `${releasesOwner}/${releasesRepo}`. This module reads the durable release
  * snapshot written by CI, with GitHub's API as a fallback. It powers the
- * download page, changelog, /api/releases/latest (also consumed by the app's
- * own update check), and /api/download/[slug].
+ * download page, /api/releases/latest (also consumed by the app's own update
+ * check), and /api/download/[slug].
  */
 
 export type OsFamily = "mac" | "windows" | "linux";
@@ -81,7 +82,8 @@ function githubHeaders(): HeadersInit {
     "User-Agent": `${siteConfig.releasesRepo} (aguedit.com)`,
   };
   // Optional token lifts the unauthenticated rate limit (60/hr → 5000/hr).
-  if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  if (process.env.GITHUB_TOKEN)
+    headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   return headers;
 }
 
@@ -91,7 +93,10 @@ export async function getLatestRelease(): Promise<ReleaseManifest | null> {
   if (api.kind === "release") return remember(api.value);
   if (api.kind === "missing") return null;
 
-  const snapshot = await readRelease(releaseSnapshotUrl(), publicGithubHeaders());
+  const snapshot = await readRelease(
+    releaseSnapshotUrl(),
+    publicGithubHeaders(),
+  );
   if (snapshot.kind === "release") return remember(snapshot.value);
   if (lastKnownRelease) return lastKnownRelease;
 
@@ -99,19 +104,20 @@ export async function getLatestRelease(): Promise<ReleaseManifest | null> {
 }
 
 /**
- * Pick the best asset for a platform: exact os+arch, then any build for the os,
- * then the first asset. Used to resolve the recommended direct download URL.
+ * Pick an exact build for a known platform. Unknown clients may receive a
+ * same-OS or first-available recommendation, but a known unsupported
+ * architecture must never fall through to an incompatible binary.
  */
 export function pickAsset(
   release: ReleaseManifest,
   os: OsFamily | "unknown",
   arch: string,
 ): DownloadAsset | undefined {
-  return (
-    release.assets.find((a) => a.os === os && a.arch === arch) ??
-    release.assets.find((a) => a.os === os) ??
-    release.assets[0]
-  );
+  const exact = release.assets.find((a) => a.os === os && a.arch === arch);
+  if (exact) return exact;
+  if (os === "unknown") return release.assets[0];
+  if (arch === "unknown") return release.assets.find((a) => a.os === os);
+  return undefined;
 }
 
 function releaseSnapshotUrl(): string {
@@ -124,7 +130,10 @@ function githubApiUrl(): string {
   return `https://api.github.com/repos/${owner}/${repo}/releases/latest`;
 }
 
-async function readRelease(url: string, headers: HeadersInit): Promise<ReleaseRead> {
+async function readRelease(
+  url: string,
+  headers: HeadersInit,
+): Promise<ReleaseRead> {
   try {
     const response = await fetch(url, { headers, cache: "no-store" });
     if (response.status === 404) return { kind: "missing" };
@@ -190,6 +199,7 @@ function mapAsset(asset: GithubAsset): DownloadAsset | null {
   if (!os) return null;
   const ext = name.split(".").pop() ?? "";
   const arch = archFor(name);
+  if (os === "mac" && arch !== "aarch64") return null;
 
   return {
     slug: `${os}-${arch}`,
@@ -205,7 +215,12 @@ function mapAsset(asset: GithubAsset): DownloadAsset | null {
 function osFor(name: string): OsFamily | null {
   if (name.endsWith(".dmg")) return "mac";
   if (name.endsWith(".msi") || name.endsWith(".exe")) return "windows";
-  if (name.endsWith(".appimage") || name.endsWith(".deb") || name.endsWith(".rpm")) return "linux";
+  if (
+    name.endsWith(".appimage") ||
+    name.endsWith(".deb") ||
+    name.endsWith(".rpm")
+  )
+    return "linux";
   return null;
 }
 

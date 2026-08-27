@@ -1,0 +1,431 @@
+.page {
+  --ink: #0d1525;
+  --ink-muted: #9aa8bd;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.hero {
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  padding: 2rem 0 clamp(4.5rem, 8vw, 7rem);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(19rem, 0.55fr);
+  gap: clamp(3rem, 8vw, 7rem);
+  padding: clamp(3.5rem, 7vw, 6.5rem) 0 3.5rem;
+}
+
+.heroTitle h1 {
+  max-width: 55rem;
+  font-size: clamp(3.2rem, 6.7vw, 6.4rem);
+  font-weight: 650;
+  line-height: 0.92;
+  letter-spacing: -0.065em;
+}
+
+.heroCopy {
+  align-self: end;
+  border-top: 2px solid var(--foreground);
+  padding-top: 1.2rem;
+}
+
+.heroCopy > p {
+  color: var(--secondary);
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.3rem;
+  margin-top: 1.6rem;
+}
+
+.heroActions > a:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--secondary);
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.heroActions > a:last-child:hover {
+  color: var(--brand-strong);
+}
+
+.handoff {
+  border: 1px solid #253149;
+  background: var(--ink);
+  color: #f8fafc;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.18);
+}
+
+.handoff figcaption {
+  display: flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid #26334a;
+  padding: 0 1rem;
+  color: var(--ink-muted);
+  font-size: 0.65rem;
+}
+
+.handoff figcaption > span:first-child {
+  color: #f8fafc;
+  font-weight: 650;
+}
+.handoff figcaption > span:last-child {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.handoff figcaption i {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: #38c993;
+}
+
+.agentRoute {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.agentStop {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  gap: 0.35rem;
+  border-right: 1px solid #26334a;
+  padding: 1.35rem;
+}
+
+.agentStop:last-child {
+  border-right: 0;
+}
+.agentStop strong {
+  overflow: hidden;
+  font-size: 0.82rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.agentStop small {
+  color: var(--ink-muted);
+  font-size: 0.62rem;
+}
+
+.memoryRail {
+  display: grid;
+  grid-template-columns: auto minmax(12rem, 1fr) repeat(4, auto);
+  align-items: center;
+  gap: 1.2rem;
+  border-top: 1px solid #31405a;
+  background: #111d31;
+  padding: 1rem 1.35rem;
+  color: var(--ink-muted);
+  font-size: 0.66rem;
+}
+
+.memoryRail svg {
+  color: #5b8cff;
+}
+.memoryRail strong {
+  color: #f8fafc;
+  font-size: 0.7rem;
+}
+
+.continuity,
+.workspace,
+.ledger {
+  padding: clamp(5.5rem, 10vw, 9rem) 0;
+}
+
+.continuityGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(34rem, 1.25fr);
+  gap: clamp(4rem, 10vw, 9rem);
+}
+
+.sectionHeading h2,
+.workspaceHeading h2,
+.ledgerHeading h2,
+.closing h2 {
+  max-width: 46rem;
+  font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+  font-weight: 645;
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.sectionHeading > p:last-child,
+.workspaceHeading > p:last-child,
+.ledgerHeading > p:last-child {
+  max-width: 35rem;
+  margin-top: 1.4rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+
+.continuityList {
+  border-top: 1px solid var(--foreground);
+}
+
+.continuityList li {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.55fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.25rem;
+  border-bottom: 1px solid var(--line);
+  padding: 1.75rem 0;
+}
+
+.continuityList strong {
+  font-size: 0.86rem;
+}
+.continuityList p {
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+.continuityList svg {
+  color: var(--signal);
+}
+
+.workspace {
+  border-block: 1px solid var(--line);
+  background: var(--ink);
+  color: #f8fafc;
+}
+
+.workspaceHeading,
+.ledgerHeading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.7fr);
+  align-items: end;
+  gap: 2rem;
+}
+
+.workspaceHeading h2,
+.ledgerHeading h2 {
+  margin-top: 0;
+}
+.workspaceHeading > p:last-child,
+.ledgerHeading > p:last-child {
+  margin-top: 0;
+}
+
+.workspaceList {
+  margin-top: 3rem;
+  border-top: 1px solid #41506a;
+}
+
+.workspaceList a {
+  display: grid;
+  grid-template-columns: 2rem minmax(10rem, 0.6fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid #26334a;
+  padding: 1.35rem 0;
+  color: inherit;
+  transition:
+    padding 160ms ease,
+    color 160ms ease;
+}
+
+.workspaceList a:hover {
+  padding-left: 0.65rem;
+  color: #8aabff;
+}
+.workspaceList a > svg {
+  color: #7ca3ff;
+}
+.workspaceList a > svg:last-child {
+  color: #64738d;
+}
+.workspaceList strong {
+  font-size: 0.88rem;
+}
+.workspaceList p {
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.groups {
+  margin-top: 4rem;
+  border-top: 1px solid var(--foreground);
+}
+
+.group {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(3rem, 8vw, 7rem);
+  border-bottom: 1px solid var(--line-strong);
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+
+.groupIntro h3 {
+  max-width: 26rem;
+  font-size: clamp(1.7rem, 3vw, 2.45rem);
+  font-weight: 630;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+.groupIntro small {
+  display: block;
+  max-width: 29rem;
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+.group ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+.group li {
+  display: grid;
+  grid-template-columns: 1.3rem 1fr;
+  gap: 0.7rem;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 1.2rem;
+}
+.group li > svg {
+  margin-top: 0.1rem;
+  color: var(--brand-strong);
+}
+.group li div {
+  display: grid;
+  gap: 0.4rem;
+}
+.group li strong {
+  font-size: 0.78rem;
+}
+.group li span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.closing {
+  border-top: 1px solid var(--line);
+  padding: clamp(4.5rem, 8vw, 7rem) 0;
+}
+.closingInner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 4rem;
+}
+.closing h2 {
+  max-width: 50rem;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+}
+
+@media (max-width: 1000px) {
+  .heroGrid,
+  .continuityGrid,
+  .group {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .heroCopy {
+    max-width: 39rem;
+  }
+  .continuityList {
+    width: 100%;
+  }
+  .workspaceHeading,
+  .ledgerHeading {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 1rem;
+  }
+  .workspaceHeading > p:last-child,
+  .ledgerHeading > p:last-child {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .heroTitle h1 {
+    font-size: clamp(3rem, 14vw, 4.6rem);
+  }
+  .agentRoute {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .agentStop:nth-child(2) {
+    border-right: 0;
+  }
+  .memoryRail {
+    grid-template-columns: auto 1fr repeat(2, auto);
+  }
+  .memoryRail span:nth-last-child(-n + 2) {
+    display: none;
+  }
+  .continuityList li {
+    grid-template-columns: 1fr auto;
+  }
+  .continuityList p {
+    grid-column: 1 / -1;
+  }
+  .continuityList svg {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .workspaceList a {
+    grid-template-columns: 1.5rem 1fr auto;
+  }
+  .workspaceList p {
+    grid-column: 2 / -1;
+  }
+  .group ul {
+    grid-template-columns: 1fr;
+  }
+  .closingInner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding-top: 1.4rem;
+  }
+  .heroActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .heroActions > a:last-child {
+    justify-content: center;
+    min-height: 2.5rem;
+  }
+  .agentStop {
+    padding: 1rem;
+  }
+  .memoryRail {
+    gap: 0.65rem;
+  }
+  .memoryRail span {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workspaceList a {
+    transition: none;
+  }
+}

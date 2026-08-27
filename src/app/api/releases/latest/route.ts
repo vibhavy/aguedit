@@ -11,7 +11,7 @@ const CORS = { "Access-Control-Allow-Origin": "*" };
  * GET /api/releases/latest
  *
  * Public JSON describing the current release. Consumed by the desktop app's
- * update check (splash screen + background poll) and by download/changelog UI.
+ * update check (splash screen + background poll) and by the download UI.
  * The app compares its own version against `version` to decide whether to
  * prompt for an update.
  */
@@ -20,7 +20,10 @@ export async function GET() {
     const release = await getLatestRelease();
     if (!release) return noReleaseResponse();
     return NextResponse.json(release, {
-      headers: { ...CORS, "Cache-Control": "public, max-age=300, s-maxage=600" },
+      headers: {
+        ...CORS,
+        "Cache-Control": "public, max-age=300, s-maxage=600",
+      },
     });
   } catch (error) {
     if (!(error instanceof ReleaseUnavailableError)) throw error;

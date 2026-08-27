@@ -31,10 +31,10 @@ build setting at `npm run build:cloudflare` explicitly.
 
 See [`.env.example`](./.env.example). Summary:
 
-| Variable               | Purpose                                                                 |
-| ---------------------- | ----------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL` | Canonical URL for SEO, sitemap, robots, OG images.                      |
-| `GITHUB_TOKEN`         | Optional read-only token for the fallback GitHub API request.           |
+| Variable               | Purpose                                                       |
+| ---------------------- | ------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URL for SEO, sitemap, robots, OG images.            |
+| `GITHUB_TOKEN`         | Optional read-only token for the fallback GitHub API request. |
 
 No database or secrets are required — the site reads releases straight from the
 public GitHub releases repo.
@@ -54,12 +54,14 @@ published to a separate **public** repo
 small `latest.json` snapshot there after publishing the artifacts. The site
 checks GitHub for a newer release and falls back to that durable snapshot when
 the API is unavailable or rate-limited.
-macOS only for now, unsigned (no paid Apple cert).
+macOS releases support Apple Silicon and use Developer ID signing plus Apple
+notarization.
 
 ```
-Push/merge to main (private desktop-app repo)
-  → GitHub Actions builds an unsigned macOS .dmg
-  → gh release create … on the PUBLIC releases repo
+Local release-app on Apple Silicon
+  → validates, signs, notarizes, and uploads a draft .dmg
+  → verifies the draft, pushes main, and publishes it as latest
+  → writes and verifies latest.json in the PUBLIC releases repo
         │
    latest.json snapshot ◀── site pulls durable release metadata
         ├→ /download             download page (OS auto-detect + install help)
@@ -73,10 +75,10 @@ authoritative GitHub `404` is presented as “no release.”
 
 ### API routes
 
-| Route                   | Method | Purpose                                                                     |
-| ----------------------- | ------ | --------------------------------------------------------------------------- |
-| `/api/releases/latest`  | GET    | Public JSON of the current release (CORS-enabled).                          |
-| `/api/download/[slug]`  | GET    | 302 to an artifact (`auto` = detect OS); `?mode=stream` proxies the bytes.  |
+| Route                  | Method | Purpose                                                                    |
+| ---------------------- | ------ | -------------------------------------------------------------------------- |
+| `/api/releases/latest` | GET    | Public JSON of the current release (CORS-enabled).                         |
+| `/api/download/[slug]` | GET    | 302 to an artifact (`auto` = detect OS); `?mode=stream` proxies the bytes. |
 
 The download button streams `?mode=stream` same-origin and shows progress —
 the web analogue of the desktop app's download flow — then saves the file.
@@ -85,13 +87,13 @@ The desktop app polls `/api/releases/latest` (splash-screen check + a background
 poll every ~15 min) and compares its own version against `version` to decide
 whether to prompt for an update.
 
-### Wiring up CI
+### Release publisher
 
-Copy [`examples/github-actions-release.yml`](./examples/github-actions-release.yml)
-into the **private desktop-app** repo. On push to `main` it builds an unsigned
-universal macOS `.dmg` and creates a release on the public releases repo (using a
-`RELEASES_REPO_TOKEN` PAT with `Contents: write` there), then bumps the minor
-version. No callback to the site is needed — it pulls on its own.
+The private desktop repository owns the local `release-app.sh` build command.
+That command validates the uploaded Apple Silicon DMG and checksum, publishes
+the draft through the authenticated GitHub CLI session, and updates
+`latest.json`. No Actions workflow or callback to the site is needed—the site
+pulls release metadata.
 
 ## Project structure
 
@@ -105,7 +107,7 @@ src/
     seo.ts                 # metadata builder + JSON-LD
     releases.ts            # release types + pull from the GitHub releases repo
     os.ts                  # OS detection, semver compare, byte formatting
-examples/                  # CI workflow to copy into the private desktop repo
+examples/                  # public releases-repository bootstrap files
 ```
 
 ## Deploy
@@ -120,9 +122,9 @@ npm run deploy   # build and deploy the aguedit Worker
 
 For a Git-connected Cloudflare build, configure the commands explicitly:
 
-| Setting | Command |
-| --- | --- |
-| Build command | `npm run build:cloudflare` |
+| Setting        | Command                     |
+| -------------- | --------------------------- |
+| Build command  | `npm run build:cloudflare`  |
 | Deploy command | `npm run deploy:cloudflare` |
 
 Do not point `npm run build` back at OpenNext. OpenNext calls that script to

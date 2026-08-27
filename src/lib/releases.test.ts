@@ -8,7 +8,7 @@ const githubRelease = {
   html_url: "https://github.com/example/releases/tag/v1.0.0",
   assets: [
     {
-      name: "AguEdit_1.0.0_universal.dmg",
+      name: "AguEdit_1.0.0_aarch64.dmg",
       browser_download_url: "https://github.com/example/download/app.dmg",
       size: 42,
     },
@@ -26,7 +26,9 @@ describe("getLatestRelease", () => {
     vi.stubGlobal("fetch", fetchMock);
     const { getLatestRelease } = await freshModule();
 
-    await expect(getLatestRelease()).resolves.toMatchObject({ version: "1.0.0" });
+    await expect(getLatestRelease()).resolves.toMatchObject({
+      version: "1.0.0",
+    });
     expect(fetchMock).toHaveBeenCalledOnce();
     expect(fetchMock.mock.calls[0][0]).toContain("api.github.com");
   });
@@ -39,7 +41,9 @@ describe("getLatestRelease", () => {
     vi.stubGlobal("fetch", fetchMock);
     const { getLatestRelease } = await freshModule();
 
-    await expect(getLatestRelease()).resolves.toMatchObject({ version: "1.0.0" });
+    await expect(getLatestRelease()).resolves.toMatchObject({
+      version: "1.0.0",
+    });
     expect(fetchMock.mock.calls[1][0]).toContain("raw.githubusercontent.com");
   });
 
@@ -60,7 +64,9 @@ describe("getLatestRelease", () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse({}, 503)));
     const { getLatestRelease, ReleaseUnavailableError } = await freshModule();
 
-    await expect(getLatestRelease()).rejects.toBeInstanceOf(ReleaseUnavailableError);
+    await expect(getLatestRelease()).rejects.toBeInstanceOf(
+      ReleaseUnavailableError,
+    );
   });
 
   it("returns null only when GitHub authoritatively reports no release", async () => {
@@ -71,7 +77,55 @@ describe("getLatestRelease", () => {
     await expect(getLatestRelease()).resolves.toBeNull();
     expect(fetchMock).toHaveBeenCalledOnce();
   });
+
+  it("filters unsupported Intel and universal macOS assets", async () => {
+    const assets = [
+      ...githubRelease.assets,
+      asset("AguEdit_1.0.0_x64.dmg"),
+      asset("AguEdit_1.0.0_universal.dmg"),
+    ];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(jsonResponse({ ...githubRelease, assets })),
+    );
+    const { getLatestRelease } = await freshModule();
+
+    const release = await getLatestRelease();
+    expect(release?.assets.map((entry) => entry.slug)).toEqual(["mac-aarch64"]);
+  });
+
+  it("never falls back from a known unsupported architecture", async () => {
+    const { pickAsset } = await freshModule();
+    const release = {
+      version: "1.0.0",
+      name: "AguEdit v1.0.0",
+      notes: "",
+      pubDate: "2026-08-12T08:54:33Z",
+      url: "https://github.com/example/releases/tag/v1.0.0",
+      assets: [
+        {
+          slug: "mac-aarch64",
+          os: "mac" as const,
+          arch: "aarch64",
+          label: "macOS (Apple Silicon)",
+          ext: "dmg",
+          url: "https://github.com/example/download/app.dmg",
+        },
+      ],
+    };
+
+    expect(pickAsset(release, "mac", "x86_64")).toBeUndefined();
+    expect(pickAsset(release, "mac", "aarch64")?.slug).toBe("mac-aarch64");
+  });
 });
+
+function asset(name: string) {
+  return {
+    name,
+    browser_download_url: `https://github.com/example/download/${name}`,
+    size: 42,
+  };
+}
 
 function jsonResponse(value: unknown, status = 200): Response {
   return new Response(JSON.stringify(value), {

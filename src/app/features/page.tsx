@@ -1,181 +1,168 @@
-import { ArrowRight, Check, Download } from "lucide-react";
-import { AppMock } from "@/components/app-mock";
-import { JsonLd } from "@/components/json-ld";
-import { ButtonLink, Container, SectionHeading } from "@/components/ui";
+import Link from "next/link";
 import {
-  featureGroups,
-  steps,
-  type Feature,
-  type FeatureGroup,
-} from "@/lib/content";
+  ArrowDown,
+  ArrowRight,
+  Check,
+  Download,
+  RefreshCw,
+} from "lucide-react";
+import { JsonLd } from "@/components/json-ld";
+import { ButtonLink, Container } from "@/components/ui";
+import { featureGroups, pillars, type FeatureGroup } from "@/lib/content";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
+import styles from "./features.module.css";
 
 export const metadata = buildMetadata({
-  title: "AI-Powered Code Editor Features",
+  title: "Multiple Coding Agents, One Conversation",
   path: "/features",
   description:
-    "Explore AguEdit: seamless Claude Code and Codex handoffs, shared local project memory, Monaco editing, plans, Git, terminals, search, and reported usage.",
+    "Use Claude Code, Codex, Antigravity, Cursor, custom models, plugins, and portable skills in one AguEdit workspace without losing project context.",
   keywords: [
-    "AI native code editor features",
-    "Claude Code GUI features",
-    "Codex CLI GUI features",
-    "multi-agent coding workspace",
-    "AI coding task manager",
+    "multiple coding agents one conversation",
+    "coding agent context handoff",
+    "Claude Code Codex Antigravity Cursor",
+    "custom AI model endpoint code editor",
+    "coding agent plugins and skills",
   ],
 });
 
-const facts = [
-  ["2", "coding agents"],
-  ["1", "integrated editor"],
-  ["5", "core workflows"],
-  ["0", "AguEdit accounts"],
-];
-
-const orderedFeatureGroups = ["workspace", "orchestration", "continuity", "control"]
+const agents = ["Claude Code", "Codex", "Antigravity", "Cursor"] as const;
+const orderedGroups = [
+  "orchestration",
+  "continuity",
+  "workspace",
+  "extensions",
+  "control",
+]
   .map((id) => featureGroups.find((group) => group.id === id))
   .filter((group): group is FeatureGroup => Boolean(group));
 
+const continuityPoints = [
+  ["Conversation", "The thread remains one continuous record."],
+  ["Agent session", "Each native tool resumes its own session."],
+  ["Project memory", "Decisions, todos, summaries, and file notes travel."],
+] as const;
+
 export default function FeaturesPage() {
   return (
-    <>
+    <div className={styles.page}>
       <JsonLd
         data={breadcrumbJsonLd([{ name: "Features", path: "/features" }])}
       />
       <FeatureHero />
-      <FeatureFacts />
-      <FeatureCatalogue />
-      <HowItWorks />
-      <FeatureCta />
-    </>
+      <Continuity />
+      <Workspace />
+      <CapabilityIndex />
+      <Closing />
+    </div>
   );
 }
 
 function FeatureHero() {
   return (
-    <section className="hero-shell relative overflow-hidden">
-      <div className="hero-grid pointer-events-none absolute inset-0 -z-10" />
-      <Container className="flex flex-col items-center gap-8 pt-16 text-center sm:pt-24">
-        <SectionHeading
-          as="h1"
-          eyebrow="A code editor built for agents"
-          title="Everything you use to finish a change"
-          subtitle="Edit code, work with Claude Code or Codex, review Git changes, plan tasks, and run commands without leaving the project."
-        />
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <ButtonLink
-            href="/download"
-            data-analytics-location="features_hero"
-            className="h-12 rounded-xl px-6"
-          >
-            <Download size={17} /> Download free
-          </ButtonLink>
-          <ButtonLink
-            href="#orchestration"
-            variant="secondary"
-            className="h-12 rounded-xl px-6"
-          >
-            Browse the workspace <ArrowRight size={16} />
-          </ButtonLink>
+    <section className={styles.hero}>
+      <Container>
+        <div className={styles.heroGrid}>
+          <div className={styles.heroTitle}>
+            <h1>Change the agent. Keep the work.</h1>
+          </div>
+          <div className={styles.heroCopy}>
+            <p>
+              Use Claude Code, Codex, Antigravity, Cursor, or a custom
+              Responses-compatible model inside one continuous conversation.
+            </p>
+            <div className={styles.heroActions}>
+              <ButtonLink
+                href="/download"
+                data-analytics-location="features_hero"
+              >
+                <Download size={16} /> Download Free
+              </ButtonLink>
+              <Link href="#continuity">
+                Follow the handoff <ArrowDown size={15} />
+              </Link>
+            </div>
+          </div>
         </div>
-      </Container>
-      <Container className="relative mt-14 pb-10 sm:mt-18">
-        <div className="product-aura" />
-        <AppMock className="relative" />
+        <HandoffDiagram />
       </Container>
     </section>
   );
 }
 
-function FeatureFacts() {
+function HandoffDiagram() {
   return (
-    <Container className="py-12 sm:py-16">
-      <div className="grid grid-cols-2 divide-x divide-y divide-line border-y border-line sm:grid-cols-4 sm:divide-y-0">
-        {facts.map(([value, label]) => (
-          <div key={label} className="px-4 py-6 text-center">
-            <p className="text-3xl font-semibold tracking-[-0.04em] text-foreground">
-              {value}
-            </p>
-            <p className="mt-1 text-xs text-muted">{label}</p>
+    <figure className={styles.handoff}>
+      <figcaption>
+        <span>One AguEdit conversation</span>
+        <span>
+          <i /> Context synchronized
+        </span>
+      </figcaption>
+      <div className={styles.agentRoute}>
+        {agents.map((agent, index) => (
+          <div className={styles.agentStop} key={agent}>
+            <strong>{agent}</strong>
+            <small>{index === 1 ? "Answering now" : "Ready"}</small>
           </div>
         ))}
       </div>
-    </Container>
+      <div className={styles.memoryRail}>
+        <RefreshCw size={15} aria-hidden="true" />
+        <strong>Shared project context</strong>
+        <span>Decisions</span>
+        <span>Todos</span>
+        <span>Summaries</span>
+        <span>File notes</span>
+      </div>
+    </figure>
   );
 }
 
-function FeatureCatalogue() {
+function Continuity() {
   return (
-    <div>
-      {orderedFeatureGroups.map((group, index) => (
-        <FeatureSection key={group.id} group={group} index={index} />
-      ))}
-    </div>
-  );
-}
-
-function FeatureSection({
-  group,
-  index,
-}: {
-  group: FeatureGroup;
-  index: number;
-}) {
-  const alternate = index % 2 === 1;
-  return (
-    <section
-      id={group.id}
-      className={alternate ? "section-shell py-20 sm:py-28" : "py-20 sm:py-28"}
-    >
-      <Container>
-        <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr]">
-          <div className="lg:sticky lg:top-28 lg:self-start">
-            <p className="section-kicker">
-              0{index + 1} · {group.eyebrow}
-            </p>
-            <h2 className="mt-4 max-w-md text-balance text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">
-              {group.title}
-            </h2>
-            <p className="mt-5 max-w-md text-base leading-7 text-muted">
-              {group.description}
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {group.features.map((feature) => (
-              <FeatureCard key={feature.title} feature={feature} />
-            ))}
-          </div>
+    <section id="continuity" className={styles.continuity}>
+      <Container className={styles.continuityGrid}>
+        <div className={styles.sectionHeading}>
+          <h2>A handoff without the restart.</h2>
+          <p>
+            AguEdit separates the project conversation from the tool handling
+            the next message. You choose who works next; the context stays put.
+          </p>
         </div>
+        <ol className={styles.continuityList}>
+          {continuityPoints.map(([title, description]) => (
+            <li key={title}>
+              <strong>{title}</strong>
+              <p>{description}</p>
+              <Check size={15} aria-hidden="true" />
+            </li>
+          ))}
+        </ol>
       </Container>
     </section>
   );
 }
 
-function FeatureCard({ feature }: { feature: Feature }) {
+function Workspace() {
   return (
-    <article className="rounded-2xl border border-line bg-surface-raised p-6 transition-colors hover:border-line-strong">
-      <span className="feature-icon">
-        <feature.icon size={19} />
-      </span>
-      <h3 className="mt-8 text-lg font-semibold tracking-tight">
-        {feature.title}
-      </h3>
-      <p className="mt-3 text-sm leading-6 text-muted">{feature.description}</p>
-    </article>
-  );
-}
-
-function HowItWorks() {
-  return (
-    <section className="border-y border-line bg-surface py-20 sm:py-28">
+    <section className={styles.workspace}>
       <Container>
-        <SectionHeading
-          eyebrow="From first open to handoff"
-          title="Continuity in three steps"
-          subtitle="Browsing existing work is read-only. AguEdit creates project state only when you choose to adopt a folder or continue working in it."
-        />
-        <div className="mt-14 grid gap-4 md:grid-cols-3">
-          {steps.map((step, index) => (
-            <StepCard key={step.title} step={step} index={index} />
+        <div className={styles.workspaceHeading}>
+          <h2>More than the conversation.</h2>
+          <p>
+            Code, Git, plans, terminals, and the browser remain alongside the
+            thread, so every agent works against the same visible project.
+          </p>
+        </div>
+        <div className={styles.workspaceList}>
+          {pillars.map((pillar) => (
+            <Link href={pillar.href} key={pillar.id}>
+              <pillar.icon size={18} aria-hidden="true" />
+              <strong>{pillar.label}</strong>
+              <p>{pillar.summary}</p>
+              <ArrowRight size={16} aria-hidden="true" />
+            </Link>
           ))}
         </div>
       </Container>
@@ -183,54 +170,60 @@ function HowItWorks() {
   );
 }
 
-function StepCard({
-  step,
-  index,
-}: {
-  step: (typeof steps)[number];
-  index: number;
-}) {
+function CapabilityIndex() {
   return (
-    <article className="relative rounded-2xl border border-line bg-background p-6">
-      <span className="font-mono text-xs text-brand-strong">0{index + 1}</span>
-      <span className="feature-icon mt-8">
-        <step.icon size={19} />
-      </span>
-      <h3 className="mt-6 text-lg font-semibold">{step.title}</h3>
-      <p className="mt-3 text-sm leading-6 text-muted">{step.description}</p>
+    <section className={styles.ledger}>
+      <Container>
+        <div className={styles.ledgerHeading}>
+          <h2>The system behind the handoff.</h2>
+          <p>
+            Five layers connect agent choice, project history, workspace tools,
+            extensions, and run control.
+          </p>
+        </div>
+        <div className={styles.groups}>
+          {orderedGroups.map((group) => (
+            <FeatureGroupRow key={group.id} group={group} />
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function FeatureGroupRow({ group }: { group: FeatureGroup }) {
+  return (
+    <article className={styles.group} id={group.id}>
+      <div className={styles.groupIntro}>
+        <h3>{group.title}</h3>
+        <small>{group.description}</small>
+      </div>
+      <ul>
+        {group.features.map((feature) => (
+          <li key={feature.title}>
+            <feature.icon size={16} aria-hidden="true" />
+            <div>
+              <strong>{feature.title}</strong>
+              <span>{feature.description}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
     </article>
   );
 }
 
-function FeatureCta() {
+function Closing() {
   return (
-    <Container className="py-20 sm:py-28">
-      <div className="final-cta min-h-[26rem]">
-        <p className="section-kicker">Local by architecture</p>
-        <h2 className="mt-5 max-w-3xl text-balance text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
-          Your agents can change. Your project history does not have to.
-        </h2>
-        <p className="mt-5 flex items-center gap-2 text-sm text-muted">
-          <Check size={15} className="text-signal" /> No AguEdit account
-          or hosted project database
-        </p>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <ButtonLink
-            href="/download"
-            data-analytics-location="features_final"
-            className="h-12 rounded-xl px-6"
-          >
-            <Download size={17} /> Download free
-          </ButtonLink>
-          <ButtonLink
-            href="/security"
-            variant="secondary"
-            className="h-12 rounded-xl px-6"
-          >
-            Read the security model <ArrowRight size={16} />
-          </ButtonLink>
+    <section className={styles.closing}>
+      <Container className={styles.closingInner}>
+        <div>
+          <h2>Pick up the same work with the agent you choose.</h2>
         </div>
-      </div>
-    </Container>
+        <ButtonLink href="/download" data-analytics-location="features_closing">
+          <Download size={16} /> Download Free
+        </ButtonLink>
+      </Container>
+    </section>
   );
 }

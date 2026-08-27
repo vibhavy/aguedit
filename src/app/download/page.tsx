@@ -4,7 +4,7 @@ import {
   Apple,
   Download,
   MonitorDown,
-  ShieldQuestion,
+  ShieldCheck,
   TerminalSquare,
 } from "lucide-react";
 import { ButtonLink, Container, SectionHeading } from "@/components/ui";
@@ -21,7 +21,7 @@ export const dynamic = "force-dynamic";
 export const metadata = buildMetadata({
   title: "Download AguEdit for macOS",
   path: "/download",
-  description: `Download ${siteConfig.name}, the desktop code editor for Claude Code and Codex with Git, planning, terminals, and agent handoffs. Free for macOS; Windows and Linux are planned.`,
+  description: `Download ${siteConfig.name}, the desktop coding workspace for multiple agents, custom models, Git, planning, terminals, and context-preserving handoffs. Free for macOS; Windows and Linux are planned.`,
   keywords: [
     "Claude Code desktop app download",
     "Claude Code GUI macOS",
@@ -56,25 +56,24 @@ export default async function DownloadPage() {
         <Container className="flex flex-col items-center gap-8 py-16 text-center sm:py-24">
           <SectionHeading
             as="h1"
-            eyebrow={release ? `Version ${release.version}` : "Coming soon"}
             title={`Download ${siteConfig.name}`}
-            subtitle="Edit code, work with Claude Code and Codex, manage Git, plan tasks, and run terminals in one local-first macOS editor."
+            subtitle="Use multiple coding agents without losing context, edit code, manage Git, plan tasks, and run terminals in one local-first macOS workspace."
           />
 
           {release && recommended ? (
             <DownloadButton
               href={recommended.url}
               slug={recommended.slug}
-              label={`Download for ${detected.label}`}
+              label="Download Free"
             />
           ) : (
             <ButtonLink href={githubReleasesUrl} prefetch={false}>
-              <Download size={16} /> Check GitHub releases
+              <Download size={16} /> Free Download
             </ButtonLink>
           )}
           <p className="text-sm text-muted">
             {release
-              ? "Not your platform? Pick a build below."
+              ? `Version ${release.version}. Not your platform? Pick a build below.`
               : "The first public build is on its way. Star the repo to get notified."}
           </p>
         </Container>
@@ -115,18 +114,14 @@ export default async function DownloadPage() {
       <Container className="pb-4">
         <div className="flex flex-col gap-3 rounded-xl border border-accent/30 bg-accent/5 p-6">
           <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
-            <ShieldQuestion size={16} className="text-accent" /> First launch on
-            macOS
+            <ShieldCheck size={16} className="text-accent" /> Signed and
+            notarized for macOS
           </p>
           <p className="text-sm text-muted">
-            {siteConfig.name} isn&apos;t notarized by Apple yet, so macOS may
-            say it&apos;s from an unidentified developer. To open it the first
-            time, right-click the app in Applications and choose{" "}
-            <span className="font-medium text-foreground">Open</span> — or run:
+            Open the DMG and drag {siteConfig.name} into Applications. Public
+            releases use Developer ID signing and Apple notarization, and the
+            app verifies its bundled browser helpers before publication.
           </p>
-          <code className="w-fit rounded-md border border-line bg-background px-3 py-2 font-mono text-xs text-foreground">
-            xattr -cr /Applications/{siteConfig.name}.app
-          </code>
         </div>
       </Container>
 
@@ -136,7 +131,7 @@ export default async function DownloadPage() {
             title="System requirements"
             lines={[
               "macOS 12 Monterey or later",
-              "Apple Silicon or Intel",
+              "Apple Silicon (M1 or newer)",
               "Windows & Linux soon",
             ]}
           />
@@ -151,14 +146,11 @@ export default async function DownloadPage() {
           <Requirement
             title="After installing"
             lines={[
-              "Auto-updates built in",
-              "See the changelog",
+              "In-app update checks",
+              "Review releases on GitHub",
               "Report issues on GitHub",
             ]}
-            links={[
-              { label: "Changelog →", href: "/changelog" },
-              { label: "GitHub →", href: githubReleasesUrl },
-            ]}
+            links={[{ label: "GitHub →", href: githubReleasesUrl }]}
           />
         </div>
       </Container>

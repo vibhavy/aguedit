@@ -1,0 +1,180 @@
+.page {
+  --contact-ink: #0d1525;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.hero {
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  padding: 2rem 0 clamp(5rem, 10vw, 8.5rem);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(20rem, 0.65fr);
+  align-items: end;
+  gap: clamp(4rem, 10vw, 9rem);
+  padding-top: clamp(3.5rem, 8vw, 7rem);
+}
+
+.hero h1 {
+  max-width: 53rem;
+  font-size: clamp(3.2rem, 6.6vw, 6.2rem);
+  font-weight: 650;
+  line-height: 0.93;
+  letter-spacing: -0.065em;
+}
+
+.contactBlock {
+  align-self: end;
+  border-top: 2px solid var(--foreground);
+  padding-top: 1.2rem;
+}
+
+.contactBlock > p {
+  color: var(--secondary);
+  font-size: 0.92rem;
+  line-height: 1.75;
+}
+
+.contactMethods {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.contactMethods > a {
+  display: grid;
+  min-height: 4.15rem;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 1rem;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.contactMethods > a > span {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.contactMethods strong {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.contactMethods strong + span {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.65rem;
+}
+
+.supportLink {
+  background: var(--brand);
+  color: var(--brand-foreground);
+}
+
+.supportLink:hover {
+  background: var(--brand-strong);
+}
+
+.supportLink strong + span {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.helloLink {
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--foreground);
+}
+
+.helloLink > svg:first-child {
+  color: var(--danger);
+}
+
+.helloLink strong + span {
+  color: var(--muted);
+}
+
+.helloLink:hover {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+  color: var(--brand-strong);
+}
+
+.guide {
+  padding: clamp(5.5rem, 10vw, 9rem) 0;
+}
+
+.guideGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(32rem, 1.25fr);
+  gap: clamp(4rem, 10vw, 9rem);
+}
+
+.guideHeading h2 {
+  max-width: 35rem;
+  font-size: clamp(2.35rem, 4.4vw, 4rem);
+  font-weight: 645;
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.notes {
+  border-top: 1px solid var(--foreground);
+}
+
+.notes li {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  gap: 1rem;
+  border-bottom: 1px solid var(--line);
+  padding: 1.65rem 0;
+}
+
+.notes li > svg {
+  color: var(--brand-strong);
+}
+.notes h3 {
+  font-size: 0.86rem;
+  font-weight: 680;
+}
+.notes p {
+  max-width: 31rem;
+  margin-top: 0.45rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 900px) {
+  .heroGrid,
+  .guideGrid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .contactBlock {
+    max-width: 40rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero {
+    padding-top: 1.4rem;
+  }
+  .hero h1 {
+    font-size: clamp(3rem, 14vw, 4.5rem);
+  }
+  .notes li {
+    grid-template-columns: 1.4rem 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contactMethods > a {
+    transition: none;
+  }
+}

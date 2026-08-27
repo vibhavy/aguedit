@@ -1,0 +1,455 @@
+.page {
+  --utility-ink: #0b1220;
+  --utility-line: #253149;
+  --utility-muted: #91a0b7;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.hero {
+  border-bottom: 1px solid var(--line);
+  padding: 2rem 0 clamp(5rem, 9vw, 8rem);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(20rem, 0.65fr);
+  align-items: end;
+  gap: clamp(4rem, 10vw, 9rem);
+  padding-top: clamp(3.5rem, 7vw, 6rem);
+}
+
+.hero h1 {
+  max-width: 58rem;
+  font-size: clamp(3.1rem, 6.5vw, 6rem);
+  font-weight: 650;
+  line-height: 0.94;
+  letter-spacing: -0.064em;
+}
+
+.heroAside > p {
+  border-top: 2px solid var(--foreground);
+  padding-top: 1.2rem;
+  color: var(--secondary);
+  font-size: 0.92rem;
+  line-height: 1.75;
+}
+
+.heroAside nav {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.heroAside nav a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.7rem;
+  border-bottom: 1px solid var(--line);
+  padding: 0.85rem 0;
+  color: var(--secondary);
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.heroAside nav a:hover {
+  color: var(--brand-strong);
+}
+.heroAside nav svg {
+  color: var(--muted);
+}
+
+.jsonSection,
+.diffSection {
+  scroll-margin-top: 4rem;
+  padding: clamp(5.5rem, 10vw, 9rem) 0;
+}
+
+.jsonSection {
+  background: var(--utility-ink);
+  color: #f8fafc;
+}
+.diffSection {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.utilityHeading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.8fr);
+  align-items: end;
+  gap: 2.5rem;
+}
+
+.utilityHeading h2,
+.closing h2 {
+  max-width: 42rem;
+  font-size: clamp(2.35rem, 4.5vw, 4rem);
+  font-weight: 640;
+  line-height: 1.01;
+  letter-spacing: -0.054em;
+}
+
+.utilityHeading > p {
+  max-width: 33rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.75;
+}
+
+.jsonSection .utilityHeading > p {
+  color: var(--utility-muted);
+}
+
+.workbench {
+  display: grid;
+  grid-template-columns: 14rem minmax(0, 1fr);
+  margin-top: 3.5rem;
+  border: 1px solid var(--utility-line);
+  background: #0e1728;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.28);
+}
+
+.toolRail {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  border-right: 1px solid var(--utility-line);
+  background: #0b1322;
+  padding: 0.9rem 0.7rem;
+}
+
+.toolRail > p {
+  padding: 0.5rem 0.6rem 0.8rem;
+  color: #f8fafc;
+  font-size: 0.67rem;
+  font-weight: 650;
+}
+
+.toolRail > div {
+  display: grid;
+  grid-template-columns: 1.2rem 1fr;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.6rem;
+  color: var(--utility-muted);
+  font-size: 0.65rem;
+}
+
+.toolRail > .activeTool {
+  background: #17233a;
+  color: #f8fafc;
+}
+.toolRail > .activeTool svg {
+  color: #7ca3ff;
+}
+.toolRail > small {
+  margin-top: auto;
+  padding: 1rem 0.6rem 0.25rem;
+  color: #56647b;
+  font-size: 0.56rem;
+}
+
+.jsonPreview {
+  min-width: 0;
+  overflow: hidden;
+  background: #0f192a;
+}
+
+.jsonPreview figcaption,
+.diffPreview figcaption {
+  display: grid;
+  min-height: 3rem;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 1.5rem;
+  border-bottom: 1px solid var(--utility-line);
+  padding: 0 1rem;
+  color: var(--utility-muted);
+  font-size: 0.62rem;
+}
+
+.jsonPreview figcaption > span:first-child {
+  color: #e5eaf2;
+  font-weight: 650;
+}
+.jsonPreview figcaption > span:last-child {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.validState {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #64d5aa;
+}
+.validState i {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.jsonTree {
+  min-height: 30rem;
+  padding: 1.6rem;
+}
+.jsonTree code {
+  display: grid;
+  gap: 0.48rem;
+  color: #c5cfdd;
+  font-size: clamp(0.7rem, 1vw, 0.8rem);
+  line-height: 1.55;
+}
+.jsonTree code > span {
+  display: flex;
+  min-height: 1.2rem;
+  align-items: center;
+}
+.jsonTree svg,
+.jsonTree i {
+  width: 0.9rem;
+  flex: none;
+  margin-right: 0.3rem;
+  color: #61708a;
+}
+.jsonTree b {
+  color: #7ca3ff;
+  font-weight: 500;
+}
+.jsonTree em {
+  color: #64d5aa;
+  font-style: normal;
+}
+.jsonTree mark {
+  background: transparent;
+  color: #f0b76c;
+}
+.indent {
+  padding-left: 1.1rem;
+}
+.indent2 {
+  padding-left: 2.2rem;
+}
+.indent3 {
+  padding-left: 3.3rem;
+}
+
+.previewStatus {
+  display: flex;
+  min-height: 2rem;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.2rem;
+  border-top: 1px solid var(--utility-line);
+  padding: 0 0.9rem;
+  color: #718099;
+  font-size: 0.55rem;
+}
+
+.pointList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--utility-line);
+  border-left: 1px solid var(--utility-line);
+}
+
+.pointList li {
+  display: flex;
+  min-height: 4.25rem;
+  align-items: center;
+  gap: 0.6rem;
+  border-right: 1px solid var(--utility-line);
+  padding: 1rem;
+  color: var(--utility-muted);
+  font-size: 0.7rem;
+}
+
+.pointList svg {
+  color: #64d5aa;
+}
+.diffSection .pointList {
+  border-color: var(--line);
+}
+.diffSection .pointList li {
+  border-color: var(--line);
+  color: var(--muted);
+}
+.diffSection .pointList svg {
+  color: var(--signal);
+}
+
+.diffPreview {
+  overflow: hidden;
+  margin-top: 3.5rem;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-raised);
+  box-shadow: 0 25px 65px rgba(15, 23, 42, 0.1);
+}
+
+.diffPreview figcaption {
+  grid-template-columns: 1fr auto;
+  border-color: var(--line);
+  color: var(--muted);
+}
+.diffPreview figcaption > span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--foreground);
+  font-weight: 650;
+}
+.diffHeaders {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-bottom: 1px solid var(--line);
+  color: var(--secondary);
+  font-size: 0.64rem;
+  font-weight: 650;
+}
+.diffHeaders span {
+  padding: 0.75rem 1rem;
+}
+.diffHeaders span:first-child {
+  border-right: 1px solid var(--line);
+}
+
+.diffPanes {
+  display: grid;
+  min-height: 27rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.diffPanes pre {
+  min-width: 0;
+  overflow-x: auto;
+  padding: 1.2rem 0;
+  color: var(--secondary);
+  font-size: clamp(0.62rem, 0.9vw, 0.75rem);
+  line-height: 2.2;
+}
+.diffPanes pre:first-child {
+  border-right: 1px solid var(--line);
+}
+.diffPanes code {
+  display: block;
+  min-width: max-content;
+}
+.diffPanes code > span,
+.diffPanes del,
+.diffPanes ins {
+  display: block;
+  min-width: 100%;
+  padding-right: 1rem;
+  text-decoration: none;
+}
+.diffPanes i {
+  display: inline-block;
+  width: 2.5rem;
+  margin-right: 0.8rem;
+  color: var(--muted);
+  font-style: normal;
+  text-align: right;
+  user-select: none;
+}
+.diffPanes del {
+  background: rgba(197, 79, 89, 0.1);
+}
+.diffPanes ins {
+  background: var(--signal-soft);
+}
+.diffPreview .previewStatus {
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+.closing {
+  padding: clamp(4.5rem, 8vw, 7rem) 0;
+}
+.closingInner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 4rem;
+}
+.closing h2 {
+  max-width: 50rem;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+}
+
+@media (max-width: 960px) {
+  .heroGrid,
+  .utilityHeading {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 1.2rem;
+  }
+  .heroAside {
+    max-width: 40rem;
+  }
+  .utilityHeading > p {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero h1 {
+    font-size: clamp(2.9rem, 14vw, 4.5rem);
+  }
+  .workbench {
+    grid-template-columns: 1fr;
+  }
+  .toolRail {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-right: 0;
+    border-bottom: 1px solid var(--utility-line);
+  }
+  .toolRail > p,
+  .toolRail > small {
+    display: none;
+  }
+  .toolRail > div {
+    grid-template-columns: 1.2rem 1fr;
+  }
+  .pointList {
+    grid-template-columns: 1fr;
+  }
+  .jsonTree {
+    min-height: 25rem;
+    padding: 1rem;
+  }
+  .diffPanes {
+    min-height: 22rem;
+  }
+  .closingInner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding-top: 1.4rem;
+  }
+  .jsonPreview figcaption {
+    grid-template-columns: 1fr auto;
+    gap: 0.7rem;
+  }
+  .validState {
+    display: none;
+  }
+  .indent3 {
+    padding-left: 2.6rem;
+  }
+  .diffPanes pre {
+    font-size: 0.56rem;
+  }
+  .diffPanes i {
+    width: 1.5rem;
+    margin-right: 0.4rem;
+  }
+  .previewStatus span:first-child {
+    display: none;
+  }
+}

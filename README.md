@@ -121,7 +121,7 @@ to its own provider under that provider's terms.
 
 ## Availability
 
-macOS today (unsigned build). Free while in preview.
+macOS for Apple Silicon today, signed and notarized. Free while in preview.
 **[Download →](https://aguedit.com/download)**
 
 ## Links

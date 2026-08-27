@@ -1,0 +1,196 @@
+.home {
+  position: relative;
+  min-height: calc(100svh - 4rem);
+  overflow: hidden;
+  background: var(--background);
+}
+
+.productField {
+  position: absolute;
+  inset-block: 0;
+  right: 0;
+  left: 47%;
+  border-left: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.layout {
+  position: relative;
+  display: grid;
+  min-height: calc(100svh - 4rem);
+  grid-template-columns: minmax(18rem, 0.72fr) minmax(0, 1.28fr);
+  align-items: center;
+  gap: clamp(3rem, 6vw, 6rem);
+  padding-block: clamp(2.5rem, 6vh, 4.5rem);
+}
+
+.copy {
+  max-width: 35rem;
+}
+
+.copy h1 {
+  font-size: clamp(3rem, 4.4vw, 4rem);
+  font-weight: 680;
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.copy h1 span {
+  display: block;
+  color: var(--brand-strong);
+}
+
+.description {
+  margin-top: 1.5rem;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.25vw, 1.12rem);
+  line-height: 1.65;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem 1.25rem;
+  margin-top: 1.8rem;
+}
+
+.actions > a:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--secondary);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.actions > a:last-child:hover {
+  color: var(--brand-strong);
+}
+
+.trustSignals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.trustSignals li {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+.trustSignals svg {
+  color: var(--signal);
+}
+
+.stage {
+  width: 100%;
+  max-width: 48rem;
+  justify-self: end;
+}
+
+.stage figcaption {
+  padding-top: 0.8rem;
+  color: var(--muted);
+  font-size: 0.7rem;
+  text-align: right;
+}
+
+@media (max-width: 760px) {
+  .productField {
+    top: 49%;
+    left: 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 1.75rem;
+    padding-block: 2.25rem 1.5rem;
+  }
+
+  .copy {
+    max-width: 40rem;
+  }
+
+  .copy h1 {
+    font-size: clamp(3rem, 8vw, 4.3rem);
+  }
+
+  .description {
+    max-width: 38rem;
+  }
+
+  .stage {
+    width: min(100%, 40rem, calc((100svh - 36rem) * 1.35));
+    align-self: end;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .productField {
+    top: 52%;
+  }
+  .layout {
+    gap: 1.35rem;
+    padding-block: 1.6rem 1rem;
+  }
+  .copy h1 {
+    font-size: clamp(2.7rem, 12.5vw, 3.5rem);
+  }
+  .description {
+    margin-top: 1rem;
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+  .actions {
+    align-items: stretch;
+    gap: 0.65rem;
+    margin-top: 1.2rem;
+  }
+  .actions > a:first-child {
+    width: 100%;
+  }
+  .actions > a:last-child {
+    justify-content: center;
+    min-height: 2rem;
+  }
+  .trustSignals {
+    gap: 0.4rem 0.8rem;
+    margin-top: 0.8rem;
+    padding-top: 0.8rem;
+  }
+  .trustSignals li {
+    font-size: 0.62rem;
+  }
+  .stage figcaption {
+    padding-top: 0.55rem;
+    font-size: 0.62rem;
+  }
+
+  .stage {
+    width: min(100%, 40rem, calc((100svh - 40rem) * 1.35));
+  }
+}
+
+@media (max-height: 680px) {
+  .home,
+  .layout {
+    min-height: 44rem;
+  }
+
+  .stage {
+    width: min(100%, 32rem);
+  }
+}

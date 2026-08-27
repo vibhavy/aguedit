@@ -1,19 +1,22 @@
 import { JsonLd } from "@/components/json-ld";
-import { ProductFirstHome } from "@/components/product-first-home";
+import { NativeHome } from "@/components/native-home";
 import { buildMetadata, softwareApplicationJsonLd } from "@/lib/seo";
+import styles from "./home-scroll.module.css";
 
 export const metadata = buildMetadata({
-  title: "AI-powered code editor for Claude Code and Codex",
+  title: "Multiple Coding Agents, One Conversation",
   path: "/",
   description:
-    "Edit code, use multiple coding agents, hand work between them, review Git changes, plan tasks, and run commands in AguEdit.",
+    "Use Claude Code, Codex, Antigravity, Cursor, and custom Responses-compatible models in one local developer conversation without losing project context.",
 });
 
 export default function HomePage() {
   return (
     <>
       <JsonLd data={softwareApplicationJsonLd()} />
-      <ProductFirstHome />
+      <div className={styles.scrollPage}>
+        <NativeHome />
+      </div>
     </>
   );
 }

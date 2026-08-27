@@ -85,7 +85,9 @@ export function softwareApplicationJsonLd() {
     operatingSystem: "macOS 12 or later",
     isAccessibleForFree: true,
     featureList: [
-      "Claude Code and Codex in one editor",
+      "Multiple coding agents in one conversation",
+      "Claude Code, Codex, Antigravity, and Cursor support",
+      "Custom Responses-compatible model endpoints",
       "Shared local project memory",
       "Cross-agent conversation handoff",
       "Monaco code editing and diffs",

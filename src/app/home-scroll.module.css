@@ -1,0 +1,11 @@
+.scrollPage {
+  display: contents;
+}
+
+:global(body):has(.scrollPage) {
+  overflow-y: auto !important;
+}
+
+:global(body):has(.scrollPage) > :global(footer) {
+  display: block !important;
+}

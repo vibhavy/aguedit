@@ -12,9 +12,8 @@ serve the current version. The application source is not published here.
 Get the latest build from **[aguedit.com/download](https://aguedit.com/download)**,
 or grab a specific version from the [Releases](../../releases) tab.
 
-- macOS (Apple Silicon + Intel, universal `.dmg`)
-- Unsigned build for now — on first launch, right-click the app and choose
-  **Open**, or allow it under **System Settings → Privacy & Security**.
+- macOS for Apple Silicon (`AguEdit_<version>_aarch64.dmg`)
+- Developer ID signed and notarized by Apple before publication
 
 ## License & terms
 

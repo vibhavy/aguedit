@@ -12,12 +12,7 @@ export default function PrivacyPage() {
   return (
     <Container className="py-16 sm:py-24">
       <div className="mx-auto flex max-w-2xl flex-col gap-5">
-        <SectionHeading
-          as="h1"
-          align="left"
-          eyebrow="Privacy"
-          title="Privacy Policy"
-        />
+        <SectionHeading as="h1" align="left" title="Privacy Policy" />
         <p className="text-sm text-muted">
           Last updated: {new Date().getFullYear()}
         </p>
@@ -31,10 +26,10 @@ export default function PrivacyPage() {
           </p>
           <p>
             <strong className="text-foreground">The desktop app.</strong>{" "}
-            AguEdit does not collect, transmit, or sell your data.
-            Coding-agent CLIs you connect (such as Claude Code or Codex)
-            communicate with their own providers under their own terms;
-            AguEdit never handles or stores your credentials.
+            AguEdit does not collect, transmit, or sell your data. Coding-agent
+            CLIs you connect (such as Claude Code or Codex) communicate with
+            their own providers under their own terms; AguEdit never handles or
+            stores your credentials.
           </p>
           <p>
             <strong className="text-foreground">This website.</strong>{" "}

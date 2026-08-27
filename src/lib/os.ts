@@ -8,19 +8,22 @@ export interface DetectedPlatform {
 }
 
 /** Best-effort OS/arch detection from a User-Agent string. */
-export function detectPlatform(userAgent: string | null | undefined): DetectedPlatform {
+export function detectPlatform(
+  userAgent: string | null | undefined,
+): DetectedPlatform {
   const ua = (userAgent ?? "").toLowerCase();
 
   if (ua.includes("mac")) {
-    // Apple Silicon is not reliably exposed in UA; default to arm64 for modern Macs.
-    const arch = ua.includes("intel") ? "x86_64" : "aarch64";
-    return { os: "mac", arch, label: arch === "aarch64" ? "macOS (Apple Silicon)" : "macOS (Intel)" };
+    // Modern macOS browsers retain an "Intel Mac OS X" compatibility token on
+    // Apple Silicon, so that token cannot safely identify an Intel machine.
+    return { os: "mac", arch: "aarch64", label: "macOS (Apple Silicon)" };
   }
   if (ua.includes("win")) {
     return { os: "windows", arch: "x86_64", label: "Windows" };
   }
   if (ua.includes("linux") || ua.includes("x11")) {
-    const arch = ua.includes("aarch64") || ua.includes("arm64") ? "aarch64" : "x86_64";
+    const arch =
+      ua.includes("aarch64") || ua.includes("arm64") ? "aarch64" : "x86_64";
     return { os: "linux", arch, label: "Linux" };
   }
   return { os: "unknown", arch: "unknown", label: "your platform" };
@@ -52,6 +55,9 @@ export function compareVersions(a: string, b: string): number {
 export function formatBytes(bytes?: number): string {
   if (!bytes || bytes <= 0) return "";
   const units = ["B", "KB", "MB", "GB"];
-  const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+  const i = Math.min(
+    Math.floor(Math.log(bytes) / Math.log(1024)),
+    units.length - 1,
+  );
   return `${(bytes / 1024 ** i).toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
 }

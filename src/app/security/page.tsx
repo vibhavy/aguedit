@@ -75,12 +75,11 @@ export default function SecurityPage() {
         <Container className="flex flex-col items-center gap-8 py-16 text-center sm:py-24">
           <SectionHeading
             as="h1"
-            eyebrow="Security & privacy"
             title="Your project is not our product"
             subtitle={`${siteConfig.name} has no account or hosted project database. Project memory, conversations, settings, and terminal state stay in local files you control.`}
           />
           <ButtonLink href="/download" data-analytics-location="security_cta">
-            <Download size={16} /> Download free
+            <Download size={16} /> Download Free
           </ButtonLink>
         </Container>
       </section>
@@ -126,15 +125,14 @@ export default function SecurityPage() {
 
       <Container className="pb-20">
         <div className="rounded-xl border border-line-strong bg-brand-soft p-6 sm:p-8">
-          <p className="section-kicker">The provider boundary</p>
-          <h2 className="mt-3 text-xl font-semibold">
+          <h2 className="text-xl font-semibold">
             Your coding agent still uses its own service
           </h2>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-muted">
-            Claude Code and Codex may send prompts, selected source code, and
-            tool results to their respective providers as part of doing the
-            work. AguEdit does not replace or proxy those provider
-            relationships: you sign in through each CLI, and that
+            A connected coding agent or custom endpoint may receive prompts,
+            selected source code, and tool results as part of doing the work.
+            AguEdit does not replace those provider relationships: you sign in
+            through each CLI or supply your own endpoint credentials, and that
             provider&apos;s privacy settings and terms continue to apply.
           </p>
         </div>

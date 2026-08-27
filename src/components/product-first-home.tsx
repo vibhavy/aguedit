@@ -17,7 +17,6 @@ import styles from "./product-first-home.module.css";
 
 const chapters = [
   {
-    index: "01",
     label: "Agent handoff",
     title: "Move work from one coding agent to another.",
     text: "Start in Claude Code and continue in Codex, Antigravity, or Cursor. AguEdit carries the decisions, plan, todos, and file notes with the task.",
@@ -25,7 +24,6 @@ const chapters = [
     visual: "handoff",
   },
   {
-    index: "02",
     label: "Editor",
     title: "See the code. Review every change.",
     text: "Work in a familiar editor with the project tree, open files, diffs, and agent conversation visible together.",
@@ -33,7 +31,6 @@ const chapters = [
     visual: "editor",
   },
   {
-    index: "03",
     label: "Agents",
     title: "Use the right agent for the task.",
     text: "Choose Claude Code, Codex, Antigravity, or Cursor for each task. More coding agents are in the pipeline.",
@@ -41,7 +38,6 @@ const chapters = [
     visual: "agents",
   },
   {
-    index: "04",
     label: "Git",
     title: "Finish the Git work in the editor.",
     text: "Review the diff, stage the right files, commit, pull, and push from the same workspace.",
@@ -49,7 +45,6 @@ const chapters = [
     visual: "git",
   },
   {
-    index: "05",
     label: "Plans",
     title: "Turn a request into work you can follow.",
     text: "Break the change into tasks, assign an agent, approve the run, and see what is still left.",
@@ -57,7 +52,6 @@ const chapters = [
     visual: "plan",
   },
   {
-    index: "06",
     label: "Terminal",
     title: "Run the real commands without leaving.",
     text: "Keep tests, development servers, and interactive commands running in persistent terminal tabs.",
@@ -66,7 +60,9 @@ const chapters = [
   },
 ] as const;
 
-export function ProductFirstHome({ showNotice = false }: ProductFirstHomeProps) {
+export function ProductFirstHome({
+  showNotice = false,
+}: ProductFirstHomeProps) {
   return (
     <div className={styles.page}>
       {showNotice ? <WireframeNotice /> : null}
@@ -95,7 +91,6 @@ function WireframeHero() {
   return (
     <section className={styles.hero}>
       <div className={styles.heroCopy}>
-        <p className={styles.eyebrow}>AI-powered code editor</p>
         <h1>The editor for coding with agents.</h1>
         <p className={styles.lede}>
           Edit code, work with multiple agents, hand tasks between them, review
@@ -112,7 +107,7 @@ function HeroActions() {
   return (
     <div className={styles.heroActions}>
       <Link href="/download" className={styles.primaryAction}>
-        <Download size={16} /> Download for macOS
+        <Download size={16} /> Download Free
       </Link>
       <a href="#features" className={styles.secondaryAction}>
         See how it works <ArrowRight size={15} />
@@ -126,9 +121,15 @@ function HeroProduct() {
   return (
     <div className={styles.heroProduct} aria-label="AguEdit product placement">
       <div className={styles.productBar}>
-        <i /><i /><i />
-        <span><LogoMark size={18} /> checkout-service</span>
-        <small><GitBranch size={12} /> feature/session-guard</small>
+        <i />
+        <i />
+        <i />
+        <span>
+          <LogoMark size={18} /> checkout-service
+        </span>
+        <small>
+          <GitBranch size={12} /> feature/session-guard
+        </small>
       </div>
       <div className={styles.productBody}>
         <HeroSidebar />
@@ -161,7 +162,9 @@ function HeroSidebar() {
 function HeroCode() {
   return (
     <div className={styles.productCode}>
-      <header>session.ts <small>Modified</small></header>
+      <header>
+        session.ts <small>Modified</small>
+      </header>
       <pre>{`24  const session = await store.get(token);
 25
 26  if (!session) return invalidSession();
@@ -175,11 +178,17 @@ function HeroCode() {
 function HeroAgent() {
   return (
     <aside className={styles.productAgent}>
-      <header><Bot size={14} /> Codex <i>Working</i></header>
+      <header>
+        <Bot size={14} /> Codex <i>Working</i>
+      </header>
       <p>Move validation behind the auth boundary and update the tests.</p>
       <div>
-        <span><Check size={12} /> Guard updated</span>
-        <span><Check size={12} /> Tests running</span>
+        <span>
+          <Check size={12} /> Guard updated
+        </span>
+        <span>
+          <Check size={12} /> Tests running
+        </span>
       </div>
     </aside>
   );
@@ -188,12 +197,24 @@ function HeroAgent() {
 function CapabilityStrip() {
   return (
     <div className={styles.capabilityStrip}>
-      <span><ArrowRight size={15} /> Agent handoff</span>
-      <span><Code2 size={15} /> Code editor</span>
-      <span><Bot size={15} /> Multiple agents</span>
-      <span><FolderGit2 size={15} /> Git workflow</span>
-      <span><ListChecks size={15} /> Plans</span>
-      <span><TerminalSquare size={15} /> Terminal</span>
+      <span>
+        <ArrowRight size={15} /> Agent handoff
+      </span>
+      <span>
+        <Code2 size={15} /> Code editor
+      </span>
+      <span>
+        <Bot size={15} /> Multiple agents
+      </span>
+      <span>
+        <FolderGit2 size={15} /> Git workflow
+      </span>
+      <span>
+        <ListChecks size={15} /> Plans
+      </span>
+      <span>
+        <TerminalSquare size={15} /> Terminal
+      </span>
     </div>
   );
 }
@@ -202,7 +223,11 @@ function ChapterList() {
   return (
     <div id="features">
       {chapters.map((chapter, position) => (
-        <FeatureChapter key={chapter.index} chapter={chapter} reverse={position % 2 === 1} />
+        <FeatureChapter
+          key={chapter.title}
+          chapter={chapter}
+          reverse={position % 2 === 1}
+        />
       ))}
     </div>
   );
@@ -213,11 +238,12 @@ function FeatureChapter({ chapter, reverse }: ChapterProps) {
   return (
     <section className={`${styles.chapter} ${reverse ? styles.reverse : ""}`}>
       <div className={styles.chapterCopy}>
-        <p className={styles.chapterLabel}>{chapter.index} · {chapter.label}</p>
         <h2>{chapter.title}</h2>
         <p>{chapter.text}</p>
         {chapter.visual === "handoff" ? <AgentRoster /> : null}
-        <Link href="/features">Explore {chapter.label.toLowerCase()} <ArrowRight size={14} /></Link>
+        <Link href="/features">
+          Explore {chapter.label.toLowerCase()} <ArrowRight size={14} />
+        </Link>
       </div>
       <FeaturePlaceholder type={chapter.visual} icon={<Icon size={18} />} />
     </section>
@@ -228,8 +254,10 @@ function AgentRoster() {
   return (
     <div className={styles.agentRoster} aria-label="Available coding agents">
       <small>Available now</small>
-      <span>Claude Code</span><span>Codex</span>
-      <span>Antigravity</span><span>Cursor</span>
+      <span>Claude Code</span>
+      <span>Codex</span>
+      <span>Antigravity</span>
+      <span>Cursor</span>
       <em>More in the pipeline</em>
     </div>
   );
@@ -240,10 +268,19 @@ type ChapterProps = {
   reverse: boolean;
 };
 
-function FeaturePlaceholder({ type, icon }: { type: string; icon: React.ReactNode }) {
+function FeaturePlaceholder({
+  type,
+  icon,
+}: {
+  type: string;
+  icon: React.ReactNode;
+}) {
   return (
     <div className={styles.featurePlaceholder}>
-      <header>{icon}<span>Product UI · {type}</span></header>
+      <header>
+        {icon}
+        <span>Product UI · {type}</span>
+      </header>
       {type === "handoff" ? <HandoffDiagram /> : <PlaceholderCanvas />}
       <footer>AguEdit workspace · {type}</footer>
     </div>
@@ -254,8 +291,17 @@ function PlaceholderCanvas() {
   return (
     <div className={styles.placeholderBody}>
       <span className={styles.placeholderRail} />
-      <div><i /><i /><i /><i /></div>
-      <aside><i /><i /><i /></aside>
+      <div>
+        <i />
+        <i />
+        <i />
+        <i />
+      </div>
+      <aside>
+        <i />
+        <i />
+        <i />
+      </aside>
     </div>
   );
 }
@@ -265,18 +311,27 @@ function HandoffDiagram() {
     <div className={styles.handoffDiagram}>
       <AgentStep name="Claude Code" state="Task reviewed" />
       <div className={styles.handoffRoute}>
-        <span>Decisions, tasks, and file notes</span><ArrowRight size={18} />
+        <span>Decisions, tasks, and file notes</span>
+        <ArrowRight size={18} />
       </div>
       <AgentStep name="Codex" state="Continuing work" active />
-      <p><Check size={13} /> Context retained · no pasted summary</p>
+      <p>
+        <Check size={13} /> Context retained · no pasted summary
+      </p>
     </div>
   );
 }
 
 function AgentStep({ name, state, active = false }: AgentStepProps) {
   return (
-    <div className={`${styles.agentStep} ${active ? styles.activeAgentStep : ""}`}>
-      <Bot size={18} /><span><small>{state}</small><strong>{name}</strong></span>
+    <div
+      className={`${styles.agentStep} ${active ? styles.activeAgentStep : ""}`}
+    >
+      <Bot size={18} />
+      <span>
+        <small>{state}</small>
+        <strong>{name}</strong>
+      </span>
       <i>{active ? "Active" : "Complete"}</i>
     </div>
   );
@@ -287,7 +342,6 @@ type AgentStepProps = { name: string; state: string; active?: boolean };
 function WorkflowSection() {
   return (
     <section className={styles.workflow}>
-      <p className={styles.chapterLabel}>One connected workflow</p>
       <h2>From request to tested change.</h2>
       <div className={styles.workflowSteps}>
         {[
@@ -297,7 +351,9 @@ function WorkflowSection() {
           "Inspect the diff",
           "Run tests",
           "Commit",
-        ].map((step, index) => <span key={step}><i>{index + 1}</i>{step}</span>)}
+        ].map((step) => (
+          <span key={step}>{step}</span>
+        ))}
       </div>
     </section>
   );
@@ -307,14 +363,22 @@ function TrustSection() {
   return (
     <section className={styles.trust}>
       <div>
-        <p className={styles.chapterLabel}>Local-first</p>
         <h2>Your code stays on your machine.</h2>
-        <p>AguEdit works with the tools and repositories already on your computer.</p>
+        <p>
+          AguEdit works with the tools and repositories already on your
+          computer.
+        </p>
       </div>
       <div className={styles.trustPoints}>
-        <span><ShieldCheck size={18} /> Local project memory</span>
-        <span><ShieldCheck size={18} /> Inspectable agent actions</span>
-        <span><ShieldCheck size={18} /> Explicit command approvals</span>
+        <span>
+          <ShieldCheck size={18} /> Local project memory
+        </span>
+        <span>
+          <ShieldCheck size={18} /> Inspectable agent actions
+        </span>
+        <span>
+          <ShieldCheck size={18} /> Explicit command approvals
+        </span>
       </div>
     </section>
   );
@@ -323,11 +387,10 @@ function TrustSection() {
 function FinalCallToAction() {
   return (
     <section className={styles.finalCta}>
-      <p className={styles.eyebrow}>AguEdit for macOS</p>
       <h2>Bring your agents into the editor.</h2>
       <p>Files, agents, Git, plans, and terminals in one project workspace.</p>
       <Link href="/download" className={styles.primaryAction}>
-        <Download size={16} /> Download AguEdit
+        <Download size={16} /> Download Free
       </Link>
     </section>
   );

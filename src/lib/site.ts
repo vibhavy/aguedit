@@ -9,11 +9,12 @@ export const siteConfig = {
   shortName: "AguEdit",
   // Canonical production URL. Override with NEXT_PUBLIC_SITE_URL in each env.
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://aguedit.com",
-  tagline: "Code with Claude Code and Codex in one editor.",
+  tagline:
+    "Use multiple coding agents in one conversation without losing context.",
   footerDescription:
-    "A code editor with Claude Code, Codex, file editing, Git, plans, and a built-in terminal.",
+    "A local coding workspace where multiple agents share one conversation and project context.",
   description:
-    "AguEdit is a desktop code editor for Claude Code and Codex with file editing, Git, plans, persistent terminals, and agent handoffs.",
+    "AguEdit is a desktop coding workspace for Claude Code, Codex, Antigravity, Cursor, and custom Responses-compatible models, with shared project context across agent handoffs.",
   keywords: [
     "cross-agent coding continuity",
     "coding agent context handoff",
@@ -35,6 +36,8 @@ export const siteConfig = {
     "coding agent terminal",
   ],
   creator: "AguEdit",
+  supportEmail: "support@aigoco.com",
+  personalEmail: "vibhav@aigoco.com",
   // Public repo that holds the built releases (code lives in a separate private
   // repo). The site pulls the latest release from here via the GitHub API.
   releasesOwner: "vibhavy",
@@ -48,12 +51,13 @@ export const siteConfig = {
 
 export const githubReleasesUrl = `https://github.com/${siteConfig.releasesOwner}/${siteConfig.releasesRepo}/releases`;
 
-/** Primary navigation shown in the header. */
-export const mainNav = [
-  { title: "Editor", href: "/#editor" },
-  { title: "Agents", href: "/#agents" },
-  { title: "Workflow", href: "/#workflow" },
-  { title: "Security", href: "/#security" },
+/**
+ * Primary navigation shown in the header, after the Features menu. The Features
+ * menu itself is rendered from `pillars` in `@/lib/content`.
+ */
+export const headerNav = [
+  { title: "Features", href: "/features" },
+  { title: "Utilities", href: "/utilities" },
 ] as const;
 
 /** Grouped links rendered in the footer. */
@@ -62,16 +66,15 @@ export const footerNav = [
     title: "Product",
     links: [
       { title: "Editor features", href: "/features" },
+      { title: "App utilities", href: "/utilities" },
       { title: "Local-first security", href: "/security" },
-      { title: "Free pricing", href: "/pricing" },
-      { title: "Download for macOS", href: "/download" },
+      { title: "Download Free", href: "/download" },
     ],
   },
   {
     title: "Resources",
     links: [
       { title: "Product docs", href: "/docs" },
-      { title: "Releases & changelog", href: "/changelog" },
       { title: "Coding agent blog", href: "/blog" },
       { title: "GitHub releases", href: siteConfig.socials.github },
     ],
@@ -80,6 +83,7 @@ export const footerNav = [
     title: "Company",
     links: [
       { title: "About", href: "/about" },
+      { title: "Contact", href: "/contact" },
       { title: "Privacy", href: "/privacy" },
       { title: "Terms", href: "/terms" },
     ],

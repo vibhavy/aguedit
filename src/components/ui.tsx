@@ -17,7 +17,7 @@ export function Container({
   );
 }
 
-/** Small pill label, e.g. an eyebrow above a heading. */
+/** Small pill label for compact status or category metadata. */
 export function Badge({
   children,
   className = "",
@@ -34,15 +34,13 @@ export function Badge({
   );
 }
 
-/** Centered eyebrow + title + subtitle block for section headers. */
+/** Centered title + subtitle block for section headers. */
 export function SectionHeading({
-  eyebrow,
   title,
   subtitle,
   align = "center",
   as = "h2",
 }: {
-  eyebrow?: string;
   title: ReactNode;
   subtitle?: ReactNode;
   align?: "center" | "left";
@@ -55,16 +53,11 @@ export function SectionHeading({
       : "text-left items-start";
   return (
     <div className={`flex max-w-4xl flex-col gap-5 ${alignment}`}>
-      {eyebrow ? (
-        <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-brand-strong">
-          {eyebrow}
-        </span>
-      ) : null}
-      <Heading className="text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.055em] sm:text-6xl">
+      <Heading className="text-balance text-4xl font-semibold leading-[1.05] tracking-[-0.045em] sm:text-5xl">
         {title}
       </Heading>
       {subtitle ? (
-        <p className="max-w-2xl text-pretty text-base leading-7 text-muted sm:text-lg sm:leading-8">
+        <p className="max-w-2xl text-pretty text-base leading-7 text-muted sm:text-[17px] sm:leading-8">
           {subtitle}
         </p>
       ) : null}
@@ -76,9 +69,9 @@ type ButtonVariant = "primary" | "secondary" | "ghost";
 
 const buttonStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-brand-strong text-brand-foreground hover:bg-brand shadow-[0_1px_0_0_rgba(255,255,255,0.22)_inset]",
+    "bg-brand text-brand-foreground hover:bg-brand-strong shadow-[0_1px_1px_rgba(15,23,42,0.08)]",
   secondary:
-    "border border-line-strong bg-surface-raised text-foreground hover:bg-surface-overlay",
+    "border border-line-strong bg-surface-raised text-foreground hover:bg-surface",
   ghost: "text-foreground hover:bg-surface",
 };
 
@@ -91,7 +84,7 @@ export function ButtonLink({
 }: { variant?: ButtonVariant } & ComponentProps<typeof Link>) {
   return (
     <Link
-      className={`inline-flex h-11 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${buttonStyles[variant]} ${className}`}
+      className={`inline-flex h-11 items-center justify-center gap-2 rounded-md px-6 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${buttonStyles[variant]} ${className}`}
       {...props}
     >
       {children}

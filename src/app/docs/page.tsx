@@ -16,9 +16,8 @@ export default function DocsPage() {
       <SectionHeading
         as="h1"
         align="left"
-        eyebrow="Docs"
         title="Documentation is on the way"
-        subtitle="Guides for installation, connecting Claude Code and Codex, routing, access levels, and shared project memory are being written. In the meantime:"
+        subtitle="Guides for installation, connecting coding agents and custom providers, routing, access levels, and shared project memory are being written. In the meantime:"
       />
       <ul className="mt-8 flex flex-col gap-3 text-sm">
         <li>
@@ -27,7 +26,7 @@ export default function DocsPage() {
             data-analytics-location="docs_content"
             className="text-brand hover:underline"
           >
-            Download and install AguEdit →
+            Download Free →
           </Link>
         </li>
         <li>

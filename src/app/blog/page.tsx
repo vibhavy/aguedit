@@ -16,7 +16,6 @@ export default function BlogPage() {
       <SectionHeading
         as="h1"
         align="left"
-        eyebrow="Blog"
         title="Nothing published yet"
         subtitle="Deep dives on multi-agent workflows, local-first tooling, and shared project memory are coming soon."
       />
