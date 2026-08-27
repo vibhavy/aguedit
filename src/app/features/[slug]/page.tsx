@@ -2,8 +2,8 @@ import { notFound } from "next/navigation";
 import type { CSSProperties } from "react";
 import { JsonLd } from "@/components/json-ld";
 import { FeaturePageBody } from "@/components/feature-pages";
-import { featurePages } from "@/lib/content";
-import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
+import { aiCodingQuestions, featurePages } from "@/lib/content";
+import { breadcrumbJsonLd, buildMetadata, faqJsonLd } from "@/lib/seo";
 
 /** One statically-generated page per feature. */
 export function generateStaticParams() {
@@ -21,7 +21,8 @@ export async function generateMetadata({
   return buildMetadata({
     title: page.kicker,
     path: `/features/${page.slug}`,
-    description: page.lede,
+    description: page.metaDescription ?? page.lede,
+    keywords: page.keywords,
   });
 }
 
@@ -43,6 +44,9 @@ export default async function FeatureDetailPage({
           { name: page.kicker, path: `/features/${page.slug}` },
         ])}
       />
+      {page.slug === "ai-coding" ? (
+        <JsonLd data={faqJsonLd(aiCodingQuestions)} />
+      ) : null}
       <FeaturePageBody page={page} />
     </article>
   );

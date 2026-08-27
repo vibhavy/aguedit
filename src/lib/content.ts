@@ -114,19 +114,90 @@ export interface FeaturePage {
   kicker: string;
   headline: string;
   lede: string;
+  metaDescription?: string;
   /** Non-purple accent hex; drives the page's --fp-accent. */
   accent: string;
   capabilities: FeatureCapability[];
   /** Small labelled facts rendered in the page's own signature block. */
   spec: { label: string; value: string }[];
+  /** Search terms specific to this page; visible copy remains authoritative. */
+  keywords?: readonly string[];
 }
+
+export interface SearchTopic {
+  name: string;
+  description: string;
+}
+
+export interface SearchQuestion {
+  question: string;
+  answer: string;
+}
+
+export const aiCodingTopics: SearchTopic[] = [
+  {
+    name: "Claude Code",
+    description:
+      "Use AguEdit as a visual desktop workspace around the Claude Code CLI, with conversations, files, diffs, Git, terminals, plans, and shared project memory in one window.",
+  },
+  {
+    name: "OpenAI Codex and GPT models",
+    description:
+      "Run the Codex CLI as a native agent, choose its available models and effort levels, or connect a custom OpenAI Responses-compatible model endpoint through Codex.",
+  },
+  {
+    name: "Antigravity",
+    description:
+      "Select Antigravity as a registered coding agent while keeping the same AguEdit conversation and durable project context used by the other agents.",
+  },
+  {
+    name: "Cursor",
+    description:
+      "Use Cursor as a registered agent in AguEdit and hand work to or from Claude Code, Codex, and Antigravity without rebuilding the project story.",
+  },
+  {
+    name: "VS Code and Zed",
+    description:
+      "AguEdit is a separate desktop coding workspace, not a VS Code extension or Zed extension. Its focus is coordinating multiple coding-agent CLIs around one project context.",
+  },
+  {
+    name: "Cline",
+    description:
+      "Cline is not currently a registered AguEdit agent. AguEdit's supported agents today are Claude Code, Codex, Antigravity, and Cursor, plus custom Responses-compatible models through Codex.",
+  },
+];
+
+export const aiCodingQuestions: SearchQuestion[] = [
+  {
+    question: "Can AguEdit be used as a Claude Code GUI?",
+    answer:
+      "Yes. AguEdit provides a desktop workspace around the Claude Code CLI with a conversation interface, file editing, diffs, Git, terminals, planning, and shared project memory. Claude Code still owns its authentication and native session.",
+  },
+  {
+    question: "Does AguEdit support OpenAI Codex, ChatGPT, and GPT models?",
+    answer:
+      "AguEdit supports the Codex CLI and can connect custom OpenAI Responses-compatible model endpoints through Codex. It is not a ChatGPT desktop client and does not embed the ChatGPT consumer app.",
+  },
+  {
+    question: "Does AguEdit replace Cursor, VS Code, Zed, or Cline?",
+    answer:
+      "Cursor is available as a registered coding agent. AguEdit is a separate workspace rather than a VS Code or Zed extension, and Cline is not currently a registered agent. AguEdit is designed for developers who want multiple agent CLIs to share one conversation and project context.",
+  },
+  {
+    question: "Which coding agents work with AguEdit today?",
+    answer:
+      "AguEdit currently registers Claude Code, Codex, Antigravity, and Cursor. It also supports custom OpenAI Responses-compatible models through Codex's provider configuration.",
+  },
+];
 
 export const featurePages: FeaturePage[] = [
   {
     slug: "ai-coding",
-    kicker: "AI-based coding",
-    headline: "Every coding agent, one conversation.",
-    lede: "Move between Claude Code, Codex, Antigravity, and Cursor message by message, or connect a custom Responses-compatible model. Each native tool keeps its own session while the project keeps one shared memory.",
+    kicker: "Claude Code, Codex, Cursor & AI Coding Agents",
+    headline: "Claude Code, Codex, and Cursor—one conversation.",
+    lede: "Move between Claude Code, OpenAI Codex, Antigravity, and Cursor message by message, or connect a custom GPT or other Responses-compatible model through Codex. Each native tool keeps its own session while the project keeps one shared memory.",
+    metaDescription:
+      "Use Claude Code, OpenAI Codex, Antigravity, Cursor, and custom GPT models in one desktop workspace with shared project context.",
     accent: "#2563eb",
     capabilities: [
       {
@@ -158,6 +229,20 @@ export const featurePages: FeaturePage[] = [
       { label: "Agents", value: "Claude · Codex · Antigravity · Cursor" },
       { label: "Routing", value: "Manual / AUTO" },
       { label: "Timeout", value: "None" },
+    ],
+    keywords: [
+      "Claude Code GUI",
+      "Claude Code desktop app",
+      "OpenAI Codex GUI",
+      "Codex CLI desktop app",
+      "ChatGPT coding tool",
+      "GPT coding agent",
+      "Antigravity coding agent",
+      "Cursor coding agent",
+      "VS Code AI coding alternative",
+      "Zed AI editor alternative",
+      "Cline alternative",
+      "multi-agent code editor",
     ],
   },
   {

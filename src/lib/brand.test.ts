@@ -1,11 +1,22 @@
 import { describe, expect, it } from "vitest";
-import { featureGroups, featurePages, pillars } from "./content";
+import {
+  aiCodingQuestions,
+  aiCodingTopics,
+  featureGroups,
+  featurePages,
+  pillars,
+} from "./content";
 import {
   buildMetadata,
   organizationJsonLd,
   softwareApplicationJsonLd,
 } from "./seo";
-import { footerNav, headerNav, siteConfig } from "./site";
+import {
+  footerNav,
+  headerNav,
+  searchCrawlerUserAgents,
+  siteConfig,
+} from "./site";
 
 function getFooterLinks(): { title: string; href: string }[] {
   const links: { title: string; href: string }[] = [];
@@ -44,6 +55,7 @@ describe("AguEdit brand surface", () => {
       expect(agentPage?.lede).toContain(agent);
     }
     expect(agentPage?.lede).toContain("Responses-compatible");
+    expect(agentPage?.metaDescription?.length).toBeLessThanOrEqual(160);
   });
 
   it("keeps navigation pointed at real pages", () => {
@@ -122,5 +134,34 @@ describe("AguEdit brand surface", () => {
     expect(titles).toContain("Plugins in the composer");
     expect(titles).toContain("Personal and project skills");
     expect(titles).toContain("Skills selected per message");
+  });
+
+  it("answers the requested AI coding searches with factual visible content", () => {
+    const content = [...aiCodingTopics, ...aiCodingQuestions]
+      .map((item) => Object.values(item).join(" "))
+      .join(" ");
+
+    for (const term of [
+      "Claude Code",
+      "Codex",
+      "ChatGPT",
+      "GPT",
+      "Antigravity",
+      "Cursor",
+      "VS Code",
+      "Zed",
+      "Cline",
+    ]) {
+      expect(content).toContain(term);
+    }
+  });
+
+  it("allows Google and OpenAI search crawlers", () => {
+    expect(searchCrawlerUserAgents).toEqual([
+      "*",
+      "OAI-SearchBot",
+      "ChatGPT-User",
+      "GPTBot",
+    ]);
   });
 });

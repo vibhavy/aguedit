@@ -23,8 +23,17 @@ export const siteConfig = {
     "AI code editor",
     "Claude Code GUI",
     "Claude Code desktop app",
+    "Claude Code code editor",
     "Codex CLI GUI",
     "Codex CLI desktop app",
+    "OpenAI Codex desktop app",
+    "ChatGPT coding workspace",
+    "GPT coding agent",
+    "Antigravity coding agent",
+    "Cursor coding agent",
+    "VS Code AI coding alternative",
+    "Zed AI editor alternative",
+    "Cline alternative",
     "AI coding agent orchestrator",
     "coding agent orchestration tool",
     "multi-agent coding workspace",
@@ -51,6 +60,13 @@ export const siteConfig = {
 
 export const githubReleasesUrl = `https://github.com/${siteConfig.releasesOwner}/${siteConfig.releasesRepo}/releases`;
 
+export const searchCrawlerUserAgents = [
+  "*",
+  "OAI-SearchBot",
+  "ChatGPT-User",
+  "GPTBot",
+] as const;
+
 /**
  * Primary navigation shown in the header, after the Features menu. The Features
  * menu itself is rendered from `pillars` in `@/lib/content`.
@@ -75,6 +91,7 @@ export const footerNav = [
     title: "Resources",
     links: [
       { title: "Product docs", href: "/docs" },
+      { title: "AI coding agent guide", href: "/features/ai-coding" },
       { title: "Coding agent blog", href: "/blog" },
       { title: "GitHub releases", href: siteConfig.socials.github },
     ],

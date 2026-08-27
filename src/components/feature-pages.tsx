@@ -7,7 +7,12 @@ import {
   GitBranch,
   Lock,
 } from "lucide-react";
-import type { FeatureCapability, FeaturePage } from "@/lib/content";
+import {
+  aiCodingQuestions,
+  aiCodingTopics,
+  type FeatureCapability,
+  type FeaturePage,
+} from "@/lib/content";
 import { Container } from "@/components/ui";
 
 /* ------------------------------------------------------------------ *
@@ -110,6 +115,42 @@ function FpCta({ headline }: { headline: string }) {
         </Link>
       </div>
     </Container>
+  );
+}
+
+function AiCodingSearchGuide() {
+  return (
+    <section className="fp-tool-guide">
+      <Container>
+        <div className="fp-tool-guide__head">
+          <h2>How AguEdit fits with today&apos;s AI coding tools</h2>
+          <p>
+            A Claude Code GUI, a Codex desktop workspace, and an editor like VS
+            Code or Zed solve different problems. AguEdit is built for the
+            handoff between coding agents while the project context stays one.
+          </p>
+        </div>
+        <dl className="fp-tool-guide__topics">
+          {aiCodingTopics.map((topic) => (
+            <div key={topic.name}>
+              <dt>{topic.name}</dt>
+              <dd>{topic.description}</dd>
+            </div>
+          ))}
+        </dl>
+        <div className="fp-tool-guide__questions">
+          <h2>Questions developers ask before switching</h2>
+          <div>
+            {aiCodingQuestions.map((item) => (
+              <details key={item.question}>
+                <summary>{item.question}</summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </Container>
+    </section>
   );
 }
 
@@ -339,6 +380,7 @@ function AiCodingPage({ page }: { page: FeaturePage }) {
         </Container>
       </section>
       <FpCapsSection title="One thread, many agents" caps={page.capabilities} />
+      <AiCodingSearchGuide />
       <FpCta headline="Bring your own agents. Keep one memory." />
     </>
   );

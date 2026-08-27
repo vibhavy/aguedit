@@ -84,6 +84,9 @@ export function softwareApplicationJsonLd() {
     applicationSubCategory: "Code editor for coding agents",
     operatingSystem: "macOS 12 or later",
     isAccessibleForFree: true,
+    image: new URL("/aguedit-icon.png", siteConfig.url).toString(),
+    sameAs: [siteConfig.socials.github],
+    keywords: siteConfig.keywords.join(", "),
     featureList: [
       "Multiple coding agents in one conversation",
       "Claude Code, Codex, Antigravity, and Cursor support",
@@ -95,6 +98,8 @@ export function softwareApplicationJsonLd() {
       "Multi-repository Git workflows",
       "AI coding plans and task management",
       "Live token and context visibility",
+      "Agent-owned plugin marketplace",
+      "Portable personal and project skills",
     ],
     offers: {
       "@type": "Offer",
@@ -103,7 +108,7 @@ export function softwareApplicationJsonLd() {
       availability: "https://schema.org/InStock",
       url: new URL("/download", siteConfig.url).toString(),
     },
-    softwareRequirements: "macOS 12 or later",
+    softwareRequirements: "macOS 12 or later on Apple Silicon (M1 or newer)",
     author: {
       "@type": "Organization",
       name: siteConfig.creator,
@@ -122,6 +127,15 @@ export function websiteJsonLd() {
     url: siteConfig.url,
     description: siteConfig.description,
     inLanguage: "en",
+    keywords: siteConfig.keywords.join(", "),
+    about: [
+      "AI coding agents",
+      "Claude Code",
+      "OpenAI Codex",
+      "Antigravity",
+      "Cursor",
+      "Developer tools",
+    ],
     publisher: {
       "@type": "Organization",
       name: siteConfig.creator,
