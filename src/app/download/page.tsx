@@ -4,7 +4,7 @@ import {
   Apple,
   Download,
   MonitorDown,
-  ShieldCheck,
+  ShieldAlert,
   TerminalSquare,
 } from "lucide-react";
 import { ButtonLink, Container, SectionHeading } from "@/components/ui";
@@ -21,7 +21,7 @@ export const dynamic = "force-dynamic";
 export const metadata = buildMetadata({
   title: "Download AguEdit for macOS",
   path: "/download",
-  description: `Download ${siteConfig.name}, the desktop coding workspace for multiple agents, custom models, Git, planning, terminals, and context-preserving handoffs. Free for macOS; Windows and Linux are planned.`,
+  description: `Download ${siteConfig.name} for Apple Silicon macOS and follow the one-time first-launch steps for the current unsigned release.`,
   keywords: [
     "Claude Code desktop app download",
     "Claude Code GUI macOS",
@@ -112,15 +112,43 @@ export default async function DownloadPage() {
       ) : null}
 
       <Container className="pb-4">
-        <div className="flex flex-col gap-3 rounded-xl border border-accent/30 bg-accent/5 p-6">
-          <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
-            <ShieldCheck size={16} className="text-accent" /> Signed and
-            notarized for macOS
-          </p>
-          <p className="text-sm text-muted">
-            Open the DMG and drag {siteConfig.name} into Applications. Public
-            releases use Developer ID signing and Apple notarization, and the
-            app verifies its bundled browser helpers before publication.
+        <div className="flex flex-col gap-6 rounded-xl border border-amber-500/30 bg-amber-500/5 p-6 sm:p-8">
+          <div className="flex items-start gap-3">
+            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-amber-400">
+              <ShieldAlert size={18} aria-hidden="true" />
+            </span>
+            <div className="flex flex-col gap-1">
+              <h2 className="font-semibold text-foreground">
+                First launch requires one macOS approval
+              </h2>
+              <p className="text-sm leading-6 text-muted">
+                This release is ad-hoc signed to preserve AguEdit&apos;s
+                embedded browser entitlements, but it does not yet have a paid
+                Developer ID signature and is not notarized by Apple.
+              </p>
+            </div>
+          </div>
+
+          <ol className="grid gap-3 sm:grid-cols-2">
+            <InstallStep number="1" title="Install AguEdit">
+              Open the DMG and drag AguEdit into Applications.
+            </InstallStep>
+            <InstallStep number="2" title="Try opening it">
+              Open AguEdit from Applications, then dismiss the macOS warning.
+            </InstallStep>
+            <InstallStep number="3" title="Allow the first launch">
+              Open System Settings → Privacy &amp; Security, scroll to Security,
+              and click Open Anyway.
+            </InstallStep>
+            <InstallStep number="4" title="Confirm once">
+              Authenticate if macOS asks, then click Open. Subsequent launches
+              work normally.
+            </InstallStep>
+          </ol>
+
+          <p className="text-xs leading-5 text-muted">
+            Only approve AguEdit when the DMG came from aguedit.com or the
+            official AguEdit GitHub release page.
           </p>
         </div>
       </Container>
@@ -147,7 +175,7 @@ export default async function DownloadPage() {
             title="After installing"
             lines={[
               "In-app update checks",
-              "Review releases on GitHub",
+              "One-time macOS approval",
               "Report issues on GitHub",
             ]}
             links={[{ label: "GitHub →", href: githubReleasesUrl }]}
@@ -155,6 +183,28 @@ export default async function DownloadPage() {
         </div>
       </Container>
     </>
+  );
+}
+
+function InstallStep({
+  number,
+  title,
+  children,
+}: {
+  number: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <li className="flex gap-3 rounded-lg border border-line bg-background/40 p-4 text-left">
+      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 font-mono text-xs font-semibold text-amber-400">
+        {number}
+      </span>
+      <span className="text-sm leading-6 text-muted">
+        <strong className="block font-semibold text-foreground">{title}</strong>
+        {children}
+      </span>
+    </li>
   );
 }
 

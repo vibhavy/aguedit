@@ -4,12 +4,12 @@ import { unstable_rethrow } from "next/navigation";
 /**
  * Release data model + a read-only pull from the public GitHub releases repo.
  *
- * The desktop app is built and notarized locally, then published from a
- * checksum-verified draft GitHub Release on
+ * The desktop app is built locally, currently with an explicit ad-hoc signed
+ * unsigned-release path, then published from a checksum-verified draft on
  * `${releasesOwner}/${releasesRepo}`. This module reads the durable release
- * snapshot written by CI, with GitHub's API as a fallback. It powers the
- * download page, /api/releases/latest (also consumed by the app's own update
- * check), and /api/download/[slug].
+ * snapshot written by the local publisher, with GitHub's API as a fallback. It
+ * powers the download page, /api/releases/latest (also consumed by the app's
+ * own update check), and /api/download/[slug].
  */
 
 export type OsFamily = "mac" | "windows" | "linux";

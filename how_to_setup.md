@@ -54,12 +54,14 @@ published to a separate **public** repo
 small `latest.json` snapshot there after publishing the artifacts. The site
 checks GitHub for a newer release and falls back to that durable snapshot when
 the API is unavailable or rate-limited.
-macOS releases support Apple Silicon and use Developer ID signing plus Apple
-notarization.
+macOS releases support Apple Silicon. The current public command uses explicit
+ad-hoc signing for CEF entitlements and documents the required one-time
+Gatekeeper approval; Developer ID signing remains available for a future paid
+certificate.
 
 ```
 Local release-app on Apple Silicon
-  → validates, signs, notarizes, and uploads a draft .dmg
+  → validates, ad-hoc signs, and uploads a draft .dmg
   → verifies the draft, pushes main, and publishes it as latest
   → writes and verifies latest.json in the PUBLIC releases repo
         │
@@ -89,11 +91,11 @@ whether to prompt for an update.
 
 ### Release publisher
 
-The private desktop repository owns the local `release-app.sh` build command.
-That command validates the uploaded Apple Silicon DMG and checksum, publishes
-the draft through the authenticated GitHub CLI session, and updates
-`latest.json`. No Actions workflow or callback to the site is needed—the site
-pulls release metadata.
+The private desktop repository publishes the current build with
+`npm run release:unsigned`. That command validates the uploaded Apple Silicon
+DMG and checksum, publishes the draft through the authenticated GitHub CLI
+session, and updates `latest.json`. No Actions workflow or callback to the site
+is needed—the site pulls release metadata.
 
 ## Project structure
 

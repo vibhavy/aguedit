@@ -121,7 +121,8 @@ to its own provider under that provider's terms.
 
 ## Availability
 
-macOS for Apple Silicon today, signed and notarized. Free while in preview.
+macOS for Apple Silicon today. The current unsigned release requires one manual
+approval in macOS Privacy & Security on first launch. Free to download.
 **[Download →](https://aguedit.com/download)**
 
 ## Links
