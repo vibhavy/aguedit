@@ -106,10 +106,20 @@ function WireframeHero() {
 function HeroActions() {
   return (
     <div className={styles.heroActions}>
-      <Link href="/download" className={styles.primaryAction}>
+      <Link
+        href="/download"
+        data-analytics-cta="download_free"
+        data-analytics-location="wireframe_hero"
+        className={styles.primaryAction}
+      >
         <Download size={16} /> Download Free
       </Link>
-      <a href="#features" className={styles.secondaryAction}>
+      <a
+        href="#features"
+        data-analytics-cta="explore_features"
+        data-analytics-location="wireframe_hero"
+        className={styles.secondaryAction}
+      >
         See how it works <ArrowRight size={15} />
       </a>
       <small>Free to download · Your project stays local</small>
@@ -241,7 +251,11 @@ function FeatureChapter({ chapter, reverse }: ChapterProps) {
         <h2>{chapter.title}</h2>
         <p>{chapter.text}</p>
         {chapter.visual === "handoff" ? <AgentRoster /> : null}
-        <Link href="/features">
+        <Link
+          href="/features"
+          data-analytics-cta={`explore_${chapter.label.toLowerCase().replaceAll(" ", "_")}`}
+          data-analytics-location="wireframe_feature_chapter"
+        >
           Explore {chapter.label.toLowerCase()} <ArrowRight size={14} />
         </Link>
       </div>
@@ -389,7 +403,12 @@ function FinalCallToAction() {
     <section className={styles.finalCta}>
       <h2>Bring your agents into the editor.</h2>
       <p>Files, agents, Git, plans, and terminals in one project workspace.</p>
-      <Link href="/download" className={styles.primaryAction}>
+      <Link
+        href="/download"
+        data-analytics-cta="download_free"
+        data-analytics-location="wireframe_closing"
+        className={styles.primaryAction}
+      >
         <Download size={16} /> Download Free
       </Link>
     </section>

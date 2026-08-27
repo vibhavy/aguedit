@@ -67,7 +67,12 @@ export default async function DownloadPage() {
               label="Download Free"
             />
           ) : (
-            <ButtonLink href={githubReleasesUrl} prefetch={false}>
+            <ButtonLink
+              href={githubReleasesUrl}
+              prefetch={false}
+              data-analytics-cta="view_github_releases"
+              data-analytics-location="download_recommended"
+            >
               <Download size={16} /> Free Download
             </ButtonLink>
           )}
@@ -231,6 +236,8 @@ function Requirement({
             <Link
               key={link.href}
               href={link.href}
+              data-analytics-cta="view_github_releases"
+              data-analytics-location="download_requirements"
               className="text-sm text-brand hover:underline"
             >
               {link.label}

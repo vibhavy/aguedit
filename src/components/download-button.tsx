@@ -1,7 +1,4 @@
-"use client";
-
 import { Download } from "lucide-react";
-import { trackEvent } from "@/lib/analytics";
 
 /**
  * Links straight to the release artifact's URL. GitHub serves release assets
@@ -20,19 +17,15 @@ export function DownloadButton({
   slug?: string;
   className?: string;
 }) {
-  function onClick() {
-    trackEvent("file_download", {
-      download_label: label,
-      download_slug: slug ?? "auto",
-      download_surface: "recommended",
-      page_path: window.location.pathname,
-    });
-  }
-
   return (
     <a
       href={href}
-      onClick={onClick}
+      data-analytics-cta="download_free"
+      data-analytics-location="download_recommended"
+      data-analytics-download
+      data-analytics-download-label={label}
+      data-analytics-download-slug={slug ?? "auto"}
+      data-analytics-download-surface="recommended"
       className={`inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-brand px-5 text-sm font-semibold text-brand-foreground transition-colors hover:bg-brand-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${className}`}
     >
       <Download size={16} />

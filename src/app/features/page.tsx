@@ -74,11 +74,16 @@ function FeatureHero() {
             <div className={styles.heroActions}>
               <ButtonLink
                 href="/download"
+                data-analytics-cta="download_free"
                 data-analytics-location="features_hero"
               >
                 <Download size={16} /> Download Free
               </ButtonLink>
-              <Link href="#continuity">
+              <Link
+                href="#continuity"
+                data-analytics-cta="explore_handoff"
+                data-analytics-location="features_hero"
+              >
                 Follow the handoff <ArrowDown size={15} />
               </Link>
             </div>
@@ -157,7 +162,12 @@ function Workspace() {
         </div>
         <div className={styles.workspaceList}>
           {pillars.map((pillar) => (
-            <Link href={pillar.href} key={pillar.id}>
+            <Link
+              href={pillar.href}
+              key={pillar.id}
+              data-analytics-cta={`explore_${pillar.id}`}
+              data-analytics-location="features_workspace"
+            >
               <pillar.icon size={18} aria-hidden="true" />
               <strong>{pillar.label}</strong>
               <p>{pillar.summary}</p>
@@ -220,7 +230,11 @@ function Closing() {
         <div>
           <h2>Pick up the same work with the agent you choose.</h2>
         </div>
-        <ButtonLink href="/download" data-analytics-location="features_closing">
+        <ButtonLink
+          href="/download"
+          data-analytics-cta="download_free"
+          data-analytics-location="features_closing"
+        >
           <Download size={16} /> Download Free
         </ButtonLink>
       </Container>

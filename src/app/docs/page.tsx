@@ -23,6 +23,7 @@ export default function DocsPage() {
         <li>
           <Link
             href="/download"
+            data-analytics-cta="download_free"
             data-analytics-location="docs_content"
             className="text-brand hover:underline"
           >
@@ -30,12 +31,22 @@ export default function DocsPage() {
           </Link>
         </li>
         <li>
-          <Link href="/security" className="text-brand hover:underline">
+          <Link
+            href="/security"
+            data-analytics-cta="explore_security"
+            data-analytics-location="docs_content"
+            className="text-brand hover:underline"
+          >
             Read the local-first security model →
           </Link>
         </li>
         <li>
-          <Link href={githubReleasesUrl} className="text-brand hover:underline">
+          <Link
+            href={githubReleasesUrl}
+            data-analytics-cta="view_github_releases"
+            data-analytics-location="docs_content"
+            className="text-brand hover:underline"
+          >
             Browse releases on GitHub →
           </Link>
         </li>

@@ -66,10 +66,18 @@ function UtilityHero() {
               another browser tab.
             </p>
             <nav aria-label="Utility tools">
-              <Link href="#json-formatter">
+              <Link
+                href="#json-formatter"
+                data-analytics-cta="explore_json_formatter"
+                data-analytics-location="utilities_hero"
+              >
                 JSON Formatter <ArrowDown size={14} />
               </Link>
-              <Link href="#diff-checker">
+              <Link
+                href="#diff-checker"
+                data-analytics-cta="explore_diff_checker"
+                data-analytics-location="utilities_hero"
+              >
                 Diff Checker <ArrowDown size={14} />
               </Link>
             </nav>
@@ -270,6 +278,7 @@ function UtilityClosing() {
         </div>
         <ButtonLink
           href="/download"
+          data-analytics-cta="download_free"
           data-analytics-location="utilities_closing"
         >
           <Download size={16} /> Download Free

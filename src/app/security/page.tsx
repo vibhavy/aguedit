@@ -78,7 +78,11 @@ export default function SecurityPage() {
             title="Your project is not our product"
             subtitle={`${siteConfig.name} has no account or hosted project database. Project memory, conversations, settings, and terminal state stay in local files you control.`}
           />
-          <ButtonLink href="/download" data-analytics-location="security_cta">
+          <ButtonLink
+            href="/download"
+            data-analytics-cta="download_free"
+            data-analytics-location="security_cta"
+          >
             <Download size={16} /> Download Free
           </ButtonLink>
         </Container>

@@ -58,10 +58,18 @@ function HeroCopy() {
 function HeroActions() {
   return (
     <div className={styles.actions}>
-      <ButtonLink href="/download" data-analytics-location="home_hero">
+      <ButtonLink
+        href="/download"
+        data-analytics-cta="download_free"
+        data-analytics-location="home_hero"
+      >
         <Download size={16} /> Download Free
       </ButtonLink>
-      <Link href="/features">
+      <Link
+        href="/features"
+        data-analytics-cta="explore_features"
+        data-analytics-location="home_hero"
+      >
         Features <ArrowRight size={15} />
       </Link>
     </div>

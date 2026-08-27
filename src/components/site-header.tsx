@@ -73,12 +73,15 @@ function HeaderActions() {
       <Link
         href={siteConfig.socials.github}
         aria-label="AguEdit on GitHub"
+        data-analytics-cta="view_github_repository"
+        data-analytics-location="header"
         className="grid h-9 w-9 place-items-center border border-line text-secondary hover:border-line-strong hover:text-foreground"
       >
         <GithubIcon size={16} />
       </Link>
       <ButtonLink
         href="/download"
+        data-analytics-cta="download_free"
         data-analytics-location="header"
         className="h-9 rounded-md px-4"
       >
@@ -135,6 +138,7 @@ function MobileNav({
         <ButtonLink
           href="/download"
           onClick={close}
+          data-analytics-cta="download_free"
           data-analytics-location="mobile_menu"
           className="mt-3 rounded-md"
         >

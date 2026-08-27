@@ -8,7 +8,13 @@ export default function NotFound() {
       <p className="max-w-md text-muted">
         The page you&apos;re looking for doesn&apos;t exist — but your context is safe with us.
       </p>
-      <ButtonLink href="/">Back to home</ButtonLink>
+      <ButtonLink
+        href="/"
+        data-analytics-cta="return_home"
+        data-analytics-location="not_found"
+      >
+        Back to home
+      </ButtonLink>
     </Container>
   );
 }

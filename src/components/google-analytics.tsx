@@ -13,6 +13,11 @@ import {
   trackEvent,
   trackPageView,
 } from "@/lib/analytics";
+import {
+  ctaImpressionEvent,
+  linkInteractionEvents,
+  type DownloadInteraction,
+} from "@/lib/analytics-events";
 
 export function GoogleAnalytics() {
   const pathname = usePathname();
@@ -28,6 +33,7 @@ export function GoogleAnalytics() {
 
   useEffect(() => listenForSettings(() => setSettingsOpen(true)), []);
   useEffect(() => installInteractionTracking(consent), [consent]);
+  useEffect(() => installCtaImpressionTracking(consent), [consent, pathname]);
   useEffect(() => {
     if (consent === "denied") disableAnalytics();
   }, [consent]);
@@ -128,6 +134,49 @@ function installInteractionTracking(consent: ConsentState) {
   return () => document.removeEventListener("click", handler);
 }
 
+function installCtaImpressionTracking(consent: ConsentState) {
+  if (consent !== "granted" || !("IntersectionObserver" in window)) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => trackCtaImpression(entry, observer));
+  });
+  const observe = (root: ParentNode) => observeCtas(root, observer);
+  observe(document);
+  const mutations = new MutationObserver((records) => {
+    records.flatMap((record) => [...record.addedNodes]).forEach((node) => {
+      if (node instanceof Element) observe(node);
+    });
+  });
+  mutations.observe(document.body, { childList: true, subtree: true });
+  return () => {
+    observer.disconnect();
+    mutations.disconnect();
+  };
+}
+
+function observeCtas(root: ParentNode, observer: IntersectionObserver) {
+  if (root instanceof Element && root.matches("[data-analytics-cta]")) {
+    observer.observe(root);
+  }
+  root.querySelectorAll("[data-analytics-cta]").forEach((cta) => {
+    observer.observe(cta);
+  });
+}
+
+function trackCtaImpression(
+  entry: IntersectionObserverEntry,
+  observer: IntersectionObserver,
+) {
+  if (!entry.isIntersecting || !(entry.target instanceof HTMLElement)) return;
+  const event = ctaImpressionEvent({
+    name: entry.target.dataset.analyticsCta ?? "unknown",
+    location: clickLocation(entry.target),
+    linkText: safeText(entry.target),
+    pagePath: window.location.pathname,
+  });
+  trackEvent(event.name, event.params);
+  observer.unobserve(entry.target);
+}
+
 function trackInteraction(event: MouseEvent) {
   const target = event.target instanceof Element ? event.target : null;
   const summary = target?.closest("summary");
@@ -147,29 +196,33 @@ function trackFaq(summary: Element) {
 }
 
 function trackLink(anchor: HTMLAnchorElement) {
-  const url = new URL(anchor.href, window.location.href);
-  const common = {
-    link_text: safeText(anchor),
-    page_path: window.location.pathname,
-  };
-  if (url.origin !== window.location.origin) {
-    trackEvent("outbound_click", { ...common, destination_host: url.hostname });
-  } else if (url.pathname === "/download") {
-    trackEvent("download_intent", {
-      ...common,
-      cta_location: clickLocation(anchor),
-    });
-  } else {
-    trackEvent("navigation_click", {
-      ...common,
-      destination_path: url.pathname,
-    });
-  }
+  const events = linkInteractionEvents({
+    href: anchor.href,
+    origin: window.location.origin,
+    linkText: safeText(anchor),
+    pagePath: window.location.pathname,
+    ctaName: anchor.dataset.analyticsCta,
+    ctaLocation: clickLocation(anchor),
+    download: downloadInteraction(anchor),
+  });
+  events.forEach(({ name, params }) => trackEvent(name, params));
 }
 
 function clickLocation(anchor: Element): string {
   const marked = anchor.closest<HTMLElement>("[data-analytics-location]");
   return marked?.dataset.analyticsLocation ?? "content";
+}
+
+function downloadInteraction(
+  anchor: HTMLAnchorElement,
+): DownloadInteraction | undefined {
+  if (!anchor.hasAttribute("data-analytics-download")) return undefined;
+  return {
+    label: anchor.dataset.analyticsDownloadLabel ?? safeText(anchor),
+    slug: anchor.dataset.analyticsDownloadSlug ?? "unknown",
+    surface: anchor.dataset.analyticsDownloadSurface ?? "unknown",
+    extension: anchor.dataset.analyticsDownloadExtension,
+  };
 }
 
 function safeText(element: Element): string {

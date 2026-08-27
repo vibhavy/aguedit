@@ -7,7 +7,10 @@ import { footerNav, siteConfig } from "@/lib/site";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line bg-foreground text-background">
+    <footer
+      className="border-t border-line bg-foreground text-background"
+      data-analytics-location="footer"
+    >
       <Container className="grid gap-14 py-16 md:grid-cols-[1.15fr_1.85fr] md:py-20">
         <FooterStatement />
         <FooterLinks />
@@ -26,6 +29,7 @@ function FooterStatement() {
       </p>
       <Link
         href={siteConfig.socials.github}
+        data-analytics-cta="view_github_repository"
         className="inline-flex items-center gap-2 text-sm font-semibold hover:text-brand"
       >
         GitHub repository <ArrowUpRight size={15} />
@@ -55,6 +59,9 @@ function FooterGroup({ group }: { group: (typeof footerNav)[number] }) {
           <li key={link.href}>
             <Link
               href={link.href}
+              data-analytics-cta={
+                link.href === "/download" ? "download_free" : undefined
+              }
               className="text-sm text-background/60 hover:text-background"
             >
               {link.title}

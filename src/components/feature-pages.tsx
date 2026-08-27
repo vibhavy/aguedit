@@ -33,12 +33,18 @@ function FpActions({ location }: { location: string }) {
     <div className="fp-actions">
       <Link
         href="/download"
+        data-analytics-cta="download_free"
         data-analytics-location={location}
         className="fp-btn"
       >
         <Download size={17} aria-hidden="true" /> Download Free
       </Link>
-      <Link href="/features" className="fp-btn--ghost">
+      <Link
+        href="/features"
+        data-analytics-cta="explore_all_features"
+        data-analytics-location={location}
+        className="fp-btn--ghost"
+      >
         All features <ArrowRight size={15} aria-hidden="true" />
       </Link>
     </div>
@@ -108,6 +114,7 @@ function FpCta({ headline }: { headline: string }) {
         <h2>{headline}</h2>
         <Link
           href="/download"
+          data-analytics-cta="download_free"
           data-analytics-location="feature_cta"
           className="fp-btn"
         >

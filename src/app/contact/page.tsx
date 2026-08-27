@@ -70,7 +70,12 @@ function ContactHero() {
               email AguEdit support directly.
             </p>
             <div className={styles.contactMethods}>
-              <a className={styles.supportLink} href={supportHref}>
+              <a
+                className={styles.supportLink}
+                href={supportHref}
+                data-analytics-cta="email_support"
+                data-analytics-location="contact_hero"
+              >
                 <Mail size={17} aria-hidden="true" />
                 <span>
                   <strong>Email support</strong>
@@ -78,7 +83,12 @@ function ContactHero() {
                 </span>
                 <ArrowUpRight size={15} aria-hidden="true" />
               </a>
-              <a className={styles.helloLink} href={personalHref}>
+              <a
+                className={styles.helloLink}
+                href={personalHref}
+                data-analytics-cta="email_founder"
+                data-analytics-location="contact_hero"
+              >
                 <Heart size={17} aria-hidden="true" />
                 <span>
                   <strong>If you just want to say hi</strong>

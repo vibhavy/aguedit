@@ -23,6 +23,8 @@ export default function BlogPage() {
         Want the first post in your feed?{" "}
         <Link
           href={siteConfig.socials.github}
+          data-analytics-cta="follow_github_project"
+          data-analytics-location="blog_empty_state"
           className="text-brand hover:underline"
         >
           Follow the project on GitHub

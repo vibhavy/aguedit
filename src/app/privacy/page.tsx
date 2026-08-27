@@ -34,11 +34,12 @@ export default function PrivacyPage() {
           <p>
             <strong className="text-foreground">This website.</strong>{" "}
             {siteConfig.url} uses Google Analytics to measure page views,
-            navigation, download interest, download starts, FAQ opens, theme
-            changes, and outbound-link clicks. We do not send form contents,
-            prompts, project paths, credentials, or URL query strings. Google
-            processes analytics data under its own privacy terms. Download links
-            may redirect through GitHub, which has its own privacy policy.
+            navigation, CTA views and clicks, download interest, download
+            starts, FAQ opens, and outbound-link clicks. We do not send form
+            contents, prompts, project paths, credentials, or URL query strings.
+            Google processes analytics data under its own privacy terms.
+            Download links may redirect through GitHub, which has its own
+            privacy policy.
           </p>
           <p>
             <strong className="text-foreground">Your analytics choice.</strong>{" "}
@@ -53,6 +54,8 @@ export default function PrivacyPage() {
             Questions? Reach out via our{" "}
             <a
               href={siteConfig.socials.github}
+              data-analytics-cta="view_github_repository"
+              data-analytics-location="privacy_content"
               className="text-brand hover:underline"
             >
               GitHub repository
